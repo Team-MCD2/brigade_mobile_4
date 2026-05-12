@@ -52,6 +52,7 @@
 
                 <div class="header-actions">
                     <a href="devis.html" class="btn-primary">Demander un Devis</a>
+                    <span class="material-symbols-outlined hamburger" style="display:none; margin-left: 1rem;">menu</span>
                 </div>
             </div>
         </div>
@@ -150,27 +151,37 @@
             <aside class="sidebar-filters fade-in-up">
                 <div class="filter-group">
                     <h4>Marque</h4>
-                    <label class="filter-label"><input type="checkbox"> Apple</label>
-                    <label class="filter-label"><input type="checkbox"> Dell</label>
-                    <label class="filter-label"><input type="checkbox"> HP</label>
+                    <label class="filter-label"><input type="checkbox" name="brand" value="Apple"> Apple</label>
+                    <label class="filter-label"><input type="checkbox" name="brand" value="Lenovo"> Lenovo</label>
+                    <label class="filter-label"><input type="checkbox" name="brand" value="Dell"> Dell</label>
+                    <label class="filter-label"><input type="checkbox" name="brand" value="HP"> HP</label>
                 </div>
             </aside>
             <div>
-                <div class="products-grid">
-                    <div class="product-card fade-in-up" style="transition-delay: 0.1s;">
+                <div id="products-grid" class="products-grid">
+                    <div class="product-card fade-in-up" data-brand="Apple" data-etat="Très bon état" data-price="749" style="transition-delay: 0.1s;">
                         <span class="badge-etat etat-tb">Très bon état</span>
                         <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=400" alt="MacBook Air" class="product-img">
                         <h3 class="product-title">Apple MacBook Air M1</h3>
                         <div class="product-price-wrapper"><span class="price-old">1199€</span><span class="price-new">749€</span></div>
-                        <a href="product.html" class="btn-primary">Détails & Devis</a>
+                        <a href="product.html?name=Apple%20MacBook%20Air%20M1&price=749&img=https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=600" class="btn-primary">Détails & Devis</a>
                     </div>
-                    <div class="product-card fade-in-up" style="transition-delay: 0.2s;">
+                    <div class="product-card fade-in-up" data-brand="Lenovo" data-etat="Comme neuf" data-price="589" style="transition-delay: 0.2s;">
                         <span class="badge-etat etat-neuf">Comme neuf</span>
                         <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?q=80&w=400" alt="ThinkPad" class="product-img">
                         <h3 class="product-title">Lenovo ThinkPad T14</h3>
                         <div class="product-price-wrapper"><span class="price-old">1299€</span><span class="price-new">589€</span></div>
-                        <a href="product.html" class="btn-primary">Détails & Devis</a>
+                        <a href="product.html?name=Lenovo%20ThinkPad%20T14&price=589&img=https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?q=80&w=600" class="btn-primary">Détails & Devis</a>
                     </div>
+                </div>
+
+                <!-- CTA RÉPARATION -->
+                <div class="fade-in-up" style="margin-top: 4rem; background: var(--color-dark); color: white; padding: 3rem; border-radius: var(--radius); display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 300px;">
+                        <h2 style="font-family: var(--font-title); font-size: 2.5rem; margin-bottom: 1rem; color: var(--color-primary);">Votre ordinateur fait grise mine ?</h2>
+                        <p style="color: #ccc; font-size: 1.1rem;">Lenteur, écran cassé ou batterie HS ? Nos experts redonnent un coup de jeune à votre PC ou Mac en un clin d'œil.</p>
+                    </div>
+                    <a href="reparation.html" class="btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;">Réparer mon ordinateur</a>
                 </div>
             </div>
         </section>
@@ -213,24 +224,6 @@
         </div>
     </footer>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.fade-in-up').forEach((el) => observer.observe(el));
-
-            const currentUrl = window.location.pathname.split('/').pop() || 'index.html';
-            document.querySelectorAll('.nav-link').forEach(link => {
-                if (link.getAttribute('href') === currentUrl) link.style.color = 'var(--color-primary)';
-            });
-        });
-
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('main-header');
-            if (window.scrollY > 50) header.classList.add('scrolled');
-            else header.classList.remove('scrolled');
-        });
-    </script>
+    <script src="common.js"></script>
 </body>
 </html>

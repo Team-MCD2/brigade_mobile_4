@@ -35,6 +35,7 @@
                 </div>
                 <div class="header-actions">
                     <a href="contact.html" class="btn-primary">Besoin d'aide ?</a>
+                    <span class="material-symbols-outlined hamburger" style="display:none; margin-left: 1rem;">menu</span>
                 </div>
             </div>
         </div>
@@ -223,7 +224,7 @@
                 </div>
                 <div class="wizard-footer">
                     <button class="btn-secondary" onclick="prevStep()">Modifier</button>
-                    <button class="btn-primary" onclick="confirmQuote()" style="background: var(--color-success); color: white;">Confirmer ma demande</button>
+                    <button class="btn-primary" onclick="confirmQuote(this)" style="background: var(--color-success); color: white;">Confirmer ma demande</button>
                 </div>
             </div>
 
@@ -247,6 +248,7 @@
         </div>
     </footer>
 
+    <script src="common.js"></script>
     <script src="devis.js"></script>
 </body>
 </html>

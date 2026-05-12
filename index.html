@@ -38,8 +38,8 @@
                 </div>
 
                 <div class="header-actions">
-
                     <a href="devis.html" class="btn-primary">Demander un Devis</a>
+                    <span class="material-symbols-outlined hamburger" style="display:none; margin-left: 1rem;">menu</span>
                 </div>
             </div>
         </div>
@@ -187,49 +187,93 @@
             </div>
         </section>
 
-        <!-- CATEGORIES -->
+        <!-- CATEGORIES - PRIORITÉ RÉPARATION -->
         <section class="section-padding" style="background:var(--color-white);">
             <div class="container">
-                <h2 class="section-title fade-in-up">Nos Services</h2>
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <p style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; color: var(--color-primary); font-weight: bold; margin-bottom: 0.5rem;">Expertise Technique</p>
+                    <h2 class="section-title" style="margin-bottom: 1rem;">Nos Services de Réparation</h2>
+                    <p style="max-width: 700px; margin: 0 auto; color: #666;">Spécialistes de la micro-soudure et de la remise en état express. Nous redonnons vie à vos appareils là où d'autres abandonnent.</p>
+                </div>
+                
                 <div class="categories-grid">
-                    <a href="reparation.html" class="category-card fade-in-up" style="transition-delay: 0.1s; border: 2px solid var(--color-primary);">
-                        <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?q=80&w=600" alt="Reparation" class="category-img">
-                        <div class="category-content">
-                            <h3 class="category-title">Réparation Atelier</h3>
-                            <p class="category-desc">Atelier expert certifié à Toulouse</p>
-                            <span class="btn-primary" style="padding:0.5rem 1rem;">Devis gratuit</span>
+                    <!-- REPARATION PRINCIPALE - MISE EN AVANT -->
+                    <a href="reparation.html" class="category-card fade-in-up" style="transition-delay: 0.1s; border: 2px solid var(--color-primary); grid-column: span 2;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; height: 100%;">
+                            <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?q=80&w=600" alt="Atelier Réparation" class="category-img" style="height: 100%; object-fit: cover;">
+                            <div class="category-content" style="text-align: left; padding: 2.5rem;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; color: var(--color-primary);">
+                                    <span class="material-symbols-outlined">verified</span>
+                                    <span style="font-weight: bold; text-transform: uppercase; font-size: 0.8rem;">Expertise Certifiée</span>
+                                </div>
+                                <h3 class="category-title" style="font-size: 2.5rem;">Réparation Atelier Express</h3>
+                                <p class="category-desc" style="font-size: 1.1rem;">Écrans, batteries, connecteurs et micro-soudure. Diagnostic gratuit et réparation en 30 minutes dans 90% des cas.</p>
+                                <div style="display: flex; gap: 1rem;">
+                                    <span class="btn-primary" style="padding:0.75rem 1.5rem;">Prendre RDV</span>
+                                    <span class="btn-secondary" style="padding:0.75rem 1.5rem;">Consulter les prix</span>
+                                </div>
+                            </div>
                         </div>
                     </a>
-                    <a href="smartphones.html" class="category-card fade-in-up" style="transition-delay: 0.2s;">
-                        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=600" alt="Smartphones" class="category-img">
+
+                    <!-- AUTRES SERVICES DE RÉPARATION -->
+                    <a href="devis.html?cat=micro-soudure" class="category-card fade-in-up" style="transition-delay: 0.2s;">
+                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=600" alt="Micro-soudure" class="category-img">
                         <div class="category-content">
-                            <h3 class="category-title">Vente Smartphones</h3>
-                            <p class="category-desc">Apple, Samsung, Xiaomi reconditionnés</p>
-                            <span class="btn-primary" style="padding:0.5rem 1rem;">Voir les modèles</span>
+                            <h3 class="category-title">Micro-Soudure</h3>
+                            <p class="category-desc">Réparation de carte mère et récupération de données complexes.</p>
+                            <span class="catalog-link">Expertise Pointue <span class="material-symbols-outlined">arrow_forward</span></span>
                         </div>
                     </a>
-                    <a href="ordinateurs.html" class="category-card fade-in-up" style="transition-delay: 0.3s;">
-                        <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=600" alt="Ordinateurs" class="category-img">
+
+                    <a href="devis.html?cat=deoxydation" class="category-card fade-in-up" style="transition-delay: 0.3s;">
+                        <img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?q=80&w=600" alt="Désoxydation" class="category-img">
                         <div class="category-content">
-                            <h3 class="category-title">Vente Ordinateurs</h3>
-                            <p class="category-desc">MacBook et PC Portables garantis</p>
-                            <span class="btn-primary" style="padding:0.5rem 1rem;">Voir tout</span>
+                            <h3 class="category-title">Désoxydation</h3>
+                            <p class="category-desc">Sauvetage d'appareils tombés dans l'eau. Traitement ultrason.</p>
+                            <span class="catalog-link">Agir vite <span class="material-symbols-outlined">arrow_forward</span></span>
                         </div>
                     </a>
-                    <a href="tablettes.html" class="category-card fade-in-up" style="transition-delay: 0.4s;">
-                        <img src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?q=80&w=600" alt="Tablettes" class="category-img">
-                        <div class="category-content">
-                            <h3 class="category-title">Vente Tablettes</h3>
-                            <p class="category-desc">iPad, Galaxy Tab reconditionnés</p>
-                            <span class="btn-primary" style="padding:0.5rem 1rem;">Voir tout</span>
-                        </div>
-                    </a>
+                </div>
+
+                <!-- VENTES - PLUS DISCRET -->
+                <div style="margin-top: 4rem; text-align: center;">
+                    <h3 style="font-family: var(--font-title); font-size: 2rem; margin-bottom: 2rem;">Besoin d'un nouvel appareil ?</h3>
+                    <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                        <a href="smartphones.html" class="btn-secondary" style="padding: 0.5rem 1.5rem; border-color: #DDD; font-size: 0.9rem;">Smartphones Reconditionnés</a>
+                        <a href="ordinateurs.html" class="btn-secondary" style="padding: 0.5rem 1.5rem; border-color: #DDD; font-size: 0.9rem;">PC & Mac Occasion</a>
+                        <a href="tablettes.html" class="btn-secondary" style="padding: 0.5rem 1.5rem; border-color: #DDD; font-size: 0.9rem;">Tablettes Garanties</a>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- CONTACT & CARTE MOVED UP -->
+        <!-- POURQUOI NOUS CHOISIR - REMONTÉ -->
         <section class="section-padding">
+            <div class="container">
+                <h2 class="section-title fade-in-up">L'Engagement Réparation</h2>
+                <div class="features-grid">
+                    <div class="fade-in-up" style="transition-delay: 0.1s;">
+                        <span class="feature-icon"><span class="material-symbols-outlined">shield_tick</span></span>
+                        <h3 class="feature-title">Savoir-faire Expert</h3>
+                        <p>Plus de 10 ans d'expérience dans la micro-soudure et la réparation high-tech de précision.</p>
+                    </div>
+                    <div class="fade-in-up" style="transition-delay: 0.2s;">
+                        <span class="feature-icon"><span class="material-symbols-outlined">history</span></span>
+                        <h3 class="feature-title">Rapidité Incroyable</h3>
+                        <p>90% des réparations (écrans, batteries) sont effectuées en moins de 30 minutes sur place.</p>
+                    </div>
+                    <div class="fade-in-up" style="transition-delay: 0.3s;">
+                        <span class="feature-icon"><span class="material-symbols-outlined">eco</span></span>
+                        <h3 class="feature-title">Eco-Responsable</h3>
+                        <p>Réparer plutôt que jeter : nous luttons activement contre l'obsolescence programmée.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT & CARTE -->
+        <section class="section-padding" style="background:var(--color-white);">
             <div class="container fade-in-up">
                 <h2 class="section-title">Nous Rendre Visite</h2>
                 <div class="contact-grid">
@@ -265,10 +309,10 @@
             </div>
         </section>
 
-        <!-- BEST SELLERS -->
-        <section class="section-padding" style="background:var(--color-white);">
+        <!-- BEST SELLERS - DESCENDU -->
+        <section class="section-padding">
             <div class="container">
-                <h2 class="section-title fade-in-up">Nos Appareils Certifiés</h2>
+                <h2 class="section-title fade-in-up">Nos Appareils Reconditionnés</h2>
                 <div class="carousel-wrapper">
                     <div class="product-card fade-in-up" style="transition-delay: 0.1s;">
                         <span class="badge-etat etat-tb">Très bon état</span>
@@ -282,7 +326,7 @@
                             <span class="price-old">749€</span>
                             <span class="price-new">459€</span>
                         </div>
-                        <a href="product.html" class="btn-primary">Détails & Devis</a>
+                        <a href="devis.html?model=iPhone%2013" class="btn-primary">Réserver cet appareil</a>
                     </div>
                     <div class="product-card fade-in-up" style="transition-delay: 0.2s;">
                         <span class="badge-etat etat-neuf">Comme neuf</span>
@@ -296,7 +340,7 @@
                             <span class="price-old">859€</span>
                             <span class="price-new">389€</span>
                         </div>
-                        <a href="product.html" class="btn-primary">Détails & Devis</a>
+                        <a href="devis.html?model=Galaxy%20S22" class="btn-primary">Réserver cet appareil</a>
                     </div>
                     <div class="product-card fade-in-up" style="transition-delay: 0.3s;">
                         <span class="badge-etat etat-bon">Bon état</span>
@@ -310,7 +354,7 @@
                             <span class="price-old">1199€</span>
                             <span class="price-new">749€</span>
                         </div>
-                        <a href="product.html" class="btn-primary">Détails & Devis</a>
+                        <a href="product.html?name=MacBook%20Air%20M1&price=749&img=https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=600" class="btn-primary">Détails & Devis</a>
                     </div>
                     <div class="product-card fade-in-up" style="transition-delay: 0.4s;">
                         <span class="badge-etat etat-tb">Très bon état</span>
@@ -324,7 +368,7 @@
                             <span class="price-old">669€</span>
                             <span class="price-new">399€</span>
                         </div>
-                        <a href="product.html" class="btn-primary">Détails & Devis</a>
+                        <a href="product.html?name=iPad%20Air%204&price=399&img=https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?q=80&w=600" class="btn-primary">Détails & Devis</a>
                     </div>
                 </div>
             </div>
@@ -429,6 +473,7 @@
         </a>
     </div>
 
+    <script src="common.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const observer = new IntersectionObserver((entries) => {

@@ -9,10 +9,19 @@ const DATA = {
     brands: {
         "Apple": ["iPhone 15 Pro", "iPhone 15", "iPhone 14", "iPhone 13", "iPhone 12", "iPhone 11", "iPhone SE"],
         "Samsung": ["Galaxy S23", "Galaxy S22", "Galaxy S21", "Galaxy A54", "Galaxy Z Flip"],
+        "Xiaomi": ["Redmi Note 12", "Xiaomi 13 Ultra", "Xiaomi 12T", "Poco F5"],
+        "Huawei": ["P60 Pro", "Mate 50 Pro", "P40 Lite"],
+        "Google": ["Pixel 8 Pro", "Pixel 7a", "Pixel 6"],
         "Apple iPad": ["iPad Pro M2", "iPad Air", "iPad Mini", "iPad 10th Gen"],
+        "Samsung Galaxy Tab": ["Galaxy Tab S9", "Galaxy Tab S8", "Galaxy Tab A8"],
+        "Lenovo": ["Tab P11", "Yoga Tab 13"],
         "Apple MacBook": ["MacBook Pro M3", "MacBook Air M2", "MacBook Pro 16", "iMac"],
+        "Dell": ["XPS 13", "Latitude 5420", "Inspiron 15"],
+        "HP": ["Spectre x360", "Pavilion", "Envy"],
+        "Asus": ["ZenBook", "ROG Zephyrus", "Vivobook"],
         "Nintendo": ["Switch OLED", "Switch Lite", "Switch V2"],
-        "Sony PlayStation": ["PS5", "PS4 Pro", "PS4 Slim"]
+        "Sony PlayStation": ["PS5", "PS4 Pro", "PS4 Slim"],
+        "Microsoft Xbox": ["Xbox Series X", "Xbox Series S", "Xbox One X"]
     }
 };
 
@@ -51,11 +60,57 @@ const STEP_TITLES = [
 document.addEventListener('DOMContentLoaded', () => {
     initSlots();
     updateProgress();
+    updateCopyright();
+    handleUrlParams();
 });
+
+function handleUrlParams() {
+    const params = new URLSearchParams(window.location.search);
+    const model = params.get('model');
+    if (model) {
+        currentState.model = model;
+        // Try to guess brand and category
+        if (model.toLowerCase().includes('iphone') || model.toLowerCase().includes('ipad')) {
+            currentState.brand = 'Apple';
+            currentState.category = model.toLowerCase().includes('ipad') ? 'tablette' : 'smartphone';
+        } else if (model.toLowerCase().includes('galaxy') || model.toLowerCase().includes('samsung')) {
+            currentState.brand = 'Samsung';
+            currentState.category = model.toLowerCase().includes('tab') ? 'tablette' : 'smartphone';
+        } else if (model.toLowerCase().includes('macbook') || model.toLowerCase().includes('imac')) {
+            currentState.brand = 'Apple MacBook';
+            currentState.category = 'ordinateur';
+        } else if (model.toLowerCase().includes('pixel')) {
+            currentState.brand = 'Google';
+            currentState.category = 'smartphone';
+        } else {
+            currentState.brand = 'Autre';
+            currentState.category = 'smartphone';
+        }
+        
+        // Hide ALL previous steps, show step 4
+        for (let i = 1; i <= STEPS_TOTAL; i++) {
+            const el = document.getElementById(`step-${i}`);
+            if (el) el.classList.add('hidden');
+        }
+        currentState.step = 4;
+        document.getElementById('step-4').classList.remove('hidden');
+        updateProgress();
+    }
+}
+
+function updateCopyright() {
+    const footerP = document.querySelector('.footer-bottom p');
+    if (footerP) {
+        const year = new Date().getFullYear();
+        footerP.innerText = `© ${year} La Brigade Mobile par ReparePhone Toulouse — Tous droits réservés`;
+    }
+}
 
 function initSlots() {
     const slots = ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00", "17:00", "18:00"];
     const grid = document.getElementById('slot-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
     slots.forEach(s => {
         const btn = document.createElement('button');
         btn.className = 'slot-btn';
@@ -89,13 +144,22 @@ function prevStep() {
 function updateProgress() {
     const fill = document.getElementById('progress-fill');
     const indicator = document.getElementById('step-indicator');
+    if (!fill || !indicator) return;
     const percent = (currentState.step / STEPS_TOTAL) * 100;
     fill.style.width = `${percent}%`;
     indicator.innerText = `Étape ${currentState.step} / ${STEPS_TOTAL} — ${STEP_TITLES[currentState.step]}`;
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function validateStep() {
+    if (currentState.step === 1 && !currentState.category) {
+        alert('Veuillez sélectionner un type d\'appareil.');
+        return false;
+    }
+    if (currentState.step === 2 && !currentState.brand) {
+        alert('Veuillez sélectionner une marque.');
+        return false;
+    }
     if (currentState.step === 3) {
         const custom = document.getElementById('model-custom').value;
         if (custom) currentState.model = custom;
@@ -139,6 +203,7 @@ function validateStep() {
 function selectCategory(cat) {
     currentState.category = cat;
     const brandGrid = document.getElementById('brand-grid');
+    if (!brandGrid) return;
     brandGrid.innerHTML = '';
     
     const brands = DATA.categories[cat].brands;
@@ -156,9 +221,10 @@ function selectCategory(cat) {
 function selectBrand(brand) {
     currentState.brand = brand;
     const modelGrid = document.getElementById('model-grid');
+    if (!modelGrid) return;
     modelGrid.innerHTML = '';
     
-    const models = DATA.brands[brand] || ["Non listé"];
+    const models = DATA.brands[brand] || ["Autre / Non listé"];
     models.forEach(m => {
         const btn = document.createElement('button');
         btn.className = 'wizard-option';
@@ -167,6 +233,8 @@ function selectBrand(brand) {
             document.querySelectorAll('#model-grid .wizard-option').forEach(x => x.classList.remove('active'));
             btn.classList.add('active');
             currentState.model = m;
+            // Auto next for models too
+            setTimeout(() => nextStep(), 300);
         };
         modelGrid.appendChild(btn);
     });
@@ -198,31 +266,51 @@ function selectSlot(slot, btn) {
 // SUMMARY
 function renderSummary() {
     const total = currentState.repairs.reduce((acc, curr) => acc + curr.price, 0) + currentState.pickupFee;
-    document.getElementById('recap-total').innerText = `${total} €`;
+    const totalEl = document.getElementById('recap-total');
+    if (totalEl) totalEl.innerText = `${total} €`;
     
     const details = document.getElementById('recap-details');
+    if (!details) return;
     details.innerHTML = `
-        <p><strong>Appareil :</strong> ${currentState.category.toUpperCase()} — ${currentState.brand} ${currentState.model}</p>
-        <p><strong>Pannes détectées :</strong> ${currentState.repairs.map(r => r.label).join(', ')}</p>
-        <p><strong>Prise en charge :</strong> ${currentState.pickup.toUpperCase()} (+${currentState.pickupFee}€)</p>
-        <p><strong>Rendez-vous :</strong> le ${currentState.date} à ${currentState.slot}</p>
-        <hr style="margin: 1rem 0; border: none; border-top: 1px solid #EEE;">
-        <p><strong>Client :</strong> ${currentState.contact.name}</p>
-        <p><strong>Contact :</strong> ${currentState.contact.phone} | ${currentState.contact.email}</p>
-        ${currentState.contact.address ? `<p><strong>Adresse :</strong> ${currentState.contact.address}</p>` : ''}
+        <div style="display:grid; gap:0.5rem; background: #F9F9F9; padding: 1.5rem; border-radius: 12px; border: 1px solid #EEE;">
+            <p><strong>Appareil :</strong> ${currentState.category.toUpperCase()} — ${currentState.brand} ${currentState.model}</p>
+            <p><strong>Pannes détectées :</strong> ${currentState.repairs.map(r => r.label).join(', ')}</p>
+            <p><strong>Prise en charge :</strong> ${currentState.pickup.toUpperCase()} (+${currentState.pickupFee}€)</p>
+            <p><strong>Rendez-vous :</strong> le ${currentState.date} à ${currentState.slot}</p>
+            <hr style="margin: 0.5rem 0; border: none; border-top: 1px solid #DDD;">
+            <p><strong>Client :</strong> ${currentState.contact.name}</p>
+            <p><strong>Contact :</strong> ${currentState.contact.phone} | ${currentState.contact.email}</p>
+            ${currentState.contact.address ? `<p><strong>Adresse :</strong> ${currentState.contact.address}</p>` : ''}
+        </div>
     `;
 }
 
-function confirmQuote() {
-    // Simuler l'envoi
-    const btn = event.target;
-    btn.innerText = "Envoi en cours...";
-    btn.disabled = true;
+function confirmQuote(btn) {
+    if (currentState.repairs.length === 0) {
+        alert("Veuillez sélectionner au moins une panne.");
+        return;
+    }
     
+    btn.innerHTML = "Envoi en cours...";
+    btn.disabled = true;
+
+    const summary = `
+    DEMANDE DE DEVIS REÇUE !
+    -------------------------
+    Modèle : ${currentState.model}
+    Catégorie : ${currentState.category}
+    Marque : ${currentState.brand}
+    Pannes : ${currentState.repairs.map(r => r.label).join(', ')}
+    
+    Un expert de La Brigade Mobile vous contactera sous 2h.
+    `;
+
     setTimeout(() => {
+        alert(summary);
         document.getElementById('step-8').classList.add('hidden');
         document.getElementById('step-success').classList.remove('hidden');
         document.getElementById('step-indicator').innerText = "Demande confirmée";
-        document.getElementById('progress-fill').style.width = "100%";
+        const progressFill = document.getElementById('progress-fill');
+        if (progressFill) progressFill.style.width = "100%";
     }, 1500);
 }

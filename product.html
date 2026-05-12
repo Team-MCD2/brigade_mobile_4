@@ -61,6 +61,7 @@
 
                 <div class="header-actions">
                     <a href="devis.html" class="btn-primary">Demander un Devis</a>
+                    <span class="material-symbols-outlined hamburger" style="display:none; margin-left: 1rem;">menu</span>
                 </div>
             </div>
         </div>
@@ -159,7 +160,7 @@
         </div>
         
         <div class="product-details fade-in-up" style="transition-delay: 0.1s;">
-            <div style="color:#666; font-size:0.9rem; margin-bottom:0.5rem;"><a href="index.html">Accueil</a> > <a href="smartphones.html">Smartphones</a> > iPhone 13</div>
+            <div style="color:#666; font-size:0.9rem; margin-bottom:0.5rem;"><a href="index.html">Accueil</a> > <a href="smartphones.html">Produits</a> > <span id="breadcrumb-name">iPhone 13</span></div>
             <h1>Apple iPhone 13</h1>
             <div class="stars" style="font-size:1.1rem;">
                 <span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span>
@@ -186,7 +187,9 @@
                 </div>
             </div>
             
-                <a href="contact.html" class="btn-primary" style="flex:1; font-size:1.1rem;"><span class="material-symbols-outlined">mail</span> Demander un devis / Info</a>
+            <div style="display:flex; gap:1rem; margin-top:2rem;">
+                <a href="#" id="devis-direct-btn" class="btn-primary" style="flex:1; font-size:1.1rem;"><span class="material-symbols-outlined">build</span> Réparer cet appareil</a>
+                <a href="contact.html" class="btn-secondary" style="flex:1; font-size:1.1rem;"><span class="material-symbols-outlined">mail</span> Infos achat</a>
             </div>
             
             <div class="reassurance-list">
@@ -235,6 +238,7 @@
         </div>
     </footer>
 
+    <script src="common.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const observer = new IntersectionObserver((entries) => {
@@ -242,10 +246,23 @@
             }, { threshold: 0.1 });
             document.querySelectorAll('.fade-in-up').forEach((el) => observer.observe(el));
 
-            const currentUrl = window.location.pathname.split('/').pop() || 'index.html';
-            document.querySelectorAll('.nav-link').forEach(link => {
-                if (link.getAttribute('href') === currentUrl) link.style.color = 'var(--color-primary)';
-            });
+            // Dynamic Product Loading
+            const params = new URLSearchParams(window.location.search);
+            const name = params.get('name') || 'Apple iPhone 13';
+            const price = params.get('price') || '459';
+            const img = params.get('img') || 'https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?q=80&w=600';
+
+            document.title = `${name} | La Brigade Mobile`;
+            document.querySelector('h1').innerText = name;
+            document.querySelector('.price-huge').innerText = `${price},00 €`;
+            document.querySelector('.main-img-container img').src = img;
+            document.querySelector('.main-img-container img').alt = name;
+            document.getElementById('breadcrumb-name').innerText = name;
+
+            const devisBtn = document.getElementById('devis-direct-btn');
+            if (devisBtn) {
+                devisBtn.href = `devis.html?model=${encodeURIComponent(name)}`;
+            }
         });
 
         window.addEventListener('scroll', () => {

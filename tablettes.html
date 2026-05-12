@@ -47,6 +47,7 @@
 
                 <div class="header-actions">
                     <a href="devis.html" class="btn-primary">Demander un Devis</a>
+                    <span class="material-symbols-outlined hamburger" style="display:none; margin-left: 1rem;">menu</span>
                 </div>
             </div>
         </div>
@@ -145,19 +146,28 @@
             <aside class="sidebar-filters fade-in-up">
                 <div class="filter-group">
                     <h4>Marque</h4>
-                    <label class="filter-label"><input type="checkbox"> Apple (iPad)</label>
-                    <label class="filter-label"><input type="checkbox"> Samsung</label>
+                    <label class="filter-label"><input type="checkbox" name="brand" value="Apple"> Apple (iPad)</label>
+                    <label class="filter-label"><input type="checkbox" name="brand" value="Samsung"> Samsung</label>
                 </div>
             </aside>
             <div>
-                <div class="products-grid">
-                    <div class="product-card fade-in-up" style="transition-delay: 0.1s;">
+                <div id="products-grid" class="products-grid">
+                    <div class="product-card fade-in-up" data-brand="Apple" data-etat="Très bon état" data-price="399" style="transition-delay: 0.1s;">
                         <span class="badge-etat etat-tb">Très bon état</span>
                         <img src="https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?q=80&w=400" alt="iPad Air" class="product-img">
                         <h3 class="product-title">Apple iPad Air 4 - 64 Go</h3>
                         <div class="product-price-wrapper"><span class="price-old">669€</span><span class="price-new">399€</span></div>
-                        <a href="product.html" class="btn-primary">Détails & Devis</a>
+                        <a href="product.html?name=Apple%20iPad%20Air%204&price=399&img=https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?q=80&w=600" class="btn-primary">Détails & Devis</a>
                     </div>
+                </div>
+
+                <!-- CTA RÉPARATION -->
+                <div class="fade-in-up" style="margin-top: 4rem; background: var(--color-dark); color: white; padding: 3rem; border-radius: var(--radius); display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 300px;">
+                        <h2 style="font-family: var(--font-title); font-size: 2.5rem; margin-bottom: 1rem; color: var(--color-primary);">Une tablette cassée ?</h2>
+                        <p style="color: #ccc; font-size: 1.1rem;">Écran brisé, tactile qui ne répond plus ou problème de charge sur votre iPad ou Galaxy Tab ? Nous avons la solution.</p>
+                    </div>
+                    <a href="reparation.html" class="btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;">Réparer ma tablette</a>
                 </div>
             </div>
         </section>
@@ -200,24 +210,6 @@
         </div>
     </footer>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.fade-in-up').forEach((el) => observer.observe(el));
-
-            const currentUrl = window.location.pathname.split('/').pop() || 'index.html';
-            document.querySelectorAll('.nav-link').forEach(link => {
-                if (link.getAttribute('href') === currentUrl) link.style.color = 'var(--color-primary)';
-            });
-        });
-
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('main-header');
-            if (window.scrollY > 50) header.classList.add('scrolled');
-            else header.classList.remove('scrolled');
-        });
-    </script>
+    <script src="common.js"></script>
 </body>
 </html>
