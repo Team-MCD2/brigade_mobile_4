@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clés et Logiciels | La Brigade Mobile</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .hero-slim { background: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1920') center/cover; padding: 4rem 0; text-align: center; color: var(--color-white); position: relative; }
+        .hero-slim::before { content:''; position:absolute; inset:0; background:rgba(28,28,30,0.7); }
+        .logiciels-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; padding: 4rem 0; }
+        .logiciel-card { background: var(--color-white); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow); text-align: center; transition: var(--transition); }
+        .logiciel-card:hover { transform: translateY(-5px); }
+        .logiciel-icon { font-size: 4rem; color: var(--color-primary); margin-bottom: 1.5rem; }
+        .logiciel-title { font-size: 1.25rem; margin-bottom: 0.5rem; }
+        .logiciel-price { font-size: 1.5rem; font-weight: bold; color: var(--color-primary); margin-bottom: 1.5rem; }
+        @media (max-width: 992px) { .logiciels-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .logiciels-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <!-- STICKY HEADER COMPLET -->
+    <header class="header-sticky" id="main-header">
+        <div class="utility-bar">
+            <div class="container">
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <span class="material-symbols-outlined icon-small">local_shipping</span> Livraison offerte dès 99€ | 
+                    <span class="material-symbols-outlined icon-small">verified</span> Garantie 12 mois | 
+                    <span class="material-symbols-outlined icon-small">recycling</span> Reconditionné certifié
+                </div>
+                <div class="utility-links">
+                    <a href="a-propos.html">À Propos</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="index.html#faq">FAQ</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-main">
+            <div class="container">
+                <a href="index.html" class="logo">
+                    <img src="logo.png" alt="La Brigade Mobile">
+                </a>
+                
+                <div class="search-bar">
+                    <span class="material-symbols-outlined" style="color:#666;">search</span>
+                    <input type="text" placeholder="Rechercher un produit, une marque…">
+                </div>
+
+                <div class="header-actions">
+                    <div class="action-icon" title="Favoris">
+                        <span class="material-symbols-outlined">favorite</span>
+                    </div>
+                    <a href="panier.html" class="action-icon" title="Panier">
+                        <span class="material-symbols-outlined">shopping_cart</span>
+                        <span class="badge">2</span>
+                    </a>
+                    <a href="contact.html" class="btn-primary">Contact & Devis</a>
+                </div>
+            </div>
+        </div>
+
+        <nav class="header-nav">
+            <div class="container">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="smartphones.html" class="nav-link">Téléphone</a>
+                        <div class="mega-menu">
+                            <div class="mega-menu-column">
+                                <h3>Marques</h3>
+                                <ul>
+                                    <li><a href="smartphones.html">iPhone</a></li>
+                                    <li><a href="smartphones.html">Samsung</a></li>
+                                    <li><a href="smartphones.html">Huawei</a></li>
+                                    <li><a href="smartphones.html">Xiaomi</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h3>Populaires</h3>
+                                <ul>
+                                    <li><a href="product.html">iPhone 13</a></li>
+                                    <li><a href="product.html">Galaxy S22</a></li>
+                                    <li><a href="product.html">iPhone 12</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=300" alt="Promo" style="border-radius:8px; height:150px; object-fit:cover;">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="ordinateurs.html" class="nav-link">Ordinateur</a>
+                        <div class="mega-menu">
+                            <div class="mega-menu-column">
+                                <h3>Apple</h3>
+                                <ul>
+                                    <li><a href="ordinateurs.html">MacBook Air</a></li>
+                                    <li><a href="ordinateurs.html">MacBook Pro</a></li>
+                                    <li><a href="ordinateurs.html">iMac</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h3>PC Windows</h3>
+                                <ul>
+                                    <li><a href="ordinateurs.html">Dell</a></li>
+                                    <li><a href="ordinateurs.html">HP</a></li>
+                                    <li><a href="ordinateurs.html">Lenovo</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=300" alt="Promo PC" style="border-radius:8px; height:150px; object-fit:cover;">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="tablettes.html" class="nav-link">Tablette</a>
+                        <div class="mega-menu">
+                            <div class="mega-menu-column">
+                                <h3>Marques</h3>
+                                <ul>
+                                    <li><a href="tablettes.html">Apple iPad</a></li>
+                                    <li><a href="tablettes.html">Samsung Galaxy Tab</a></li>
+                                    <li><a href="tablettes.html">Lenovo</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <img src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?q=80&w=300" alt="Promo Tablette" style="border-radius:8px; height:150px; object-fit:cover;">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="logiciels.html" class="nav-link">Clé & Logiciel</a>
+                        <div class="mega-menu">
+                            <div class="mega-menu-column">
+                                <h3>Systèmes</h3>
+                                <ul>
+                                    <li><a href="logiciels.html">Windows 11 Pro</a></li>
+                                    <li><a href="logiciels.html">Windows 10</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h3>Bureautique & Sécurité</h3>
+                                <ul>
+                                    <li><a href="logiciels.html">Office 2021</a></li>
+                                    <li><a href="logiciels.html">Microsoft 365</a></li>
+                                    <li><a href="logiciels.html">Bitdefender / Norton</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="materiel.html" class="nav-link">Matériel</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="reparation.html" class="nav-link">Réparation <span class="badge-expert">Expert</span></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-slim">
+            <div class="container fade-in-up" style="position:relative; z-index:2;">
+                <h1 style="font-size:3rem; text-transform:uppercase;">Clés & Logiciels</h1>
+                <p>Licences officielles à des prix imbattables. Livraison instantanée.</p>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="logiciels-grid">
+                <div class="logiciel-card fade-in-up" style="transition-delay:0.1s;">
+                    <div class="logiciel-icon"><span class="material-symbols-outlined" style="font-size:inherit;">description</span></div>
+                    <h3 class="logiciel-title">Microsoft Office 2021 Pro Plus</h3>
+                    <p style="color:#666; font-size:0.9rem; margin-bottom:1rem;">Licence à vie - 1 PC</p>
+                    <div class="logiciel-price">29,99€</div>
+                    <button class="btn-primary" style="width:100%;">Ajouter au panier</button>
+                </div>
+                <div class="logiciel-card fade-in-up" style="transition-delay:0.2s;">
+                    <div class="logiciel-icon"><span class="material-symbols-outlined" style="font-size:inherit;">window</span></div>
+                    <h3 class="logiciel-title">Windows 11 Pro OEM</h3>
+                    <p style="color:#666; font-size:0.9rem; margin-bottom:1rem;">Clé d'activation officielle</p>
+                    <div class="logiciel-price">19,99€</div>
+                    <button class="btn-primary" style="width:100%;">Ajouter au panier</button>
+                </div>
+                <div class="logiciel-card fade-in-up" style="transition-delay:0.3s;">
+                    <div class="logiciel-icon"><span class="material-symbols-outlined" style="font-size:inherit;">security</span></div>
+                    <h3 class="logiciel-title">Bitdefender Total Security</h3>
+                    <p style="color:#666; font-size:0.9rem; margin-bottom:1rem;">1 an - 5 appareils</p>
+                    <div class="logiciel-price">34,99€</div>
+                    <button class="btn-primary" style="width:100%;">Ajouter au panier</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER COMPLET AVEC INFO TOULOUSE -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <img src="logo.png" alt="La Brigade Mobile" style="height:40px; margin-bottom:1rem; filter:brightness(0) invert(1);">
+                    <p style="color:#ccc; margin-bottom:1rem;">La tech qui tourne rond. Pour vous, pour la planète.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><span class="material-symbols-outlined">smartphone</span></a>
+                        <a href="#" class="social-icon"><span class="material-symbols-outlined">photo_camera</span></a>
+                        <a href="#" class="social-icon"><span class="material-symbols-outlined">work</span></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Nos produits</h4>
+                    <ul>
+                        <li><a href="smartphones.html">Smartphones reconditionnés</a></li>
+                        <li><a href="ordinateurs.html">PC & Mac reconditionnés</a></li>
+                        <li><a href="tablettes.html">Tablettes reconditionnées</a></li>
+                        <li><a href="materiel.html">Matériel & Accessoires</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>La Brigade Mobile</h4>
+                    <ul>
+                        <li><a href="a-propos.html">Qui sommes-nous ?</a></li>
+                        <li><a href="contact.html">Contact & Devis</a></li>
+                        <li><a href="index.html#faq">FAQ</a></li>
+                        <li><a href="#">Conditions Générales de Vente</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Informations Pratiques</h4>
+                    <p style="color:#ccc; font-size:0.9rem; margin-bottom:0.75rem; line-height:1.4;"><span class="material-symbols-outlined icon-small">location_on</span> 65 Route de Blagnac, 31300 Toulouse<br>Accès: L1, Bus 70 - Arrêt "Cité Madrid"</p>
+                    <p style="color:#ccc; font-size:0.9rem; margin-bottom:0.75rem;"><span class="material-symbols-outlined icon-small">call</span> 07 56 91 65 93</p>
+                    <p style="color:#ccc; font-size:0.9rem; margin-bottom:0.75rem;"><span class="material-symbols-outlined icon-small">mail</span> contact@reparephone-toulouse.fr</p>
+                    <p style="color:#ccc; font-size:0.9rem;"><span class="material-symbols-outlined icon-small">schedule</span> Lun-Ven : 9h-19h | Sam : 10h-18h</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 La Brigade Mobile par ReparePhone Toulouse — Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in-up').forEach((el) => observer.observe(el));
+
+            const currentUrl = window.location.pathname.split('/').pop() || 'index.html';
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.getAttribute('href') === currentUrl) link.style.color = 'var(--color-primary)';
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        });
+    </script>
+</body>
+</html>

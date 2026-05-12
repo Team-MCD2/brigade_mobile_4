@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact & Devis | La Brigade Mobile</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; padding: 4rem 0; }
+        .contact-info { background: var(--color-dark); color: var(--color-white); padding: 3rem; border-radius: var(--radius); }
+        .info-item { display: flex; gap: 1rem; margin-bottom: 2rem; align-items: flex-start; }
+        .info-icon { color: var(--color-primary); }
+        .info-icon .material-symbols-outlined { font-size: 2rem; }
+        .contact-form { background: var(--color-white); padding: 3rem; border-radius: var(--radius); box-shadow: var(--shadow); }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        .form-control { width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 8px; font-family: var(--font-body); }
+        .map-container { width: 100%; height: 400px; background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1200') center/cover; border-radius: var(--radius); margin-top: 2rem; }
+        @media (max-width: 992px) { .contact-container { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .contact-form, .contact-info { padding: 1.5rem; } }
+    </style>
+</head>
+<body>
+    <!-- STICKY HEADER COMPLET -->
+    <header class="header-sticky" id="main-header">
+        <div class="utility-bar">
+            <div class="container">
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <span class="material-symbols-outlined icon-small">local_shipping</span> Livraison offerte dès 99€ | 
+                    <span class="material-symbols-outlined icon-small">verified</span> Garantie 12 mois | 
+                    <span class="material-symbols-outlined icon-small">recycling</span> Reconditionné certifié
+                </div>
+                <div class="utility-links">
+                    <a href="a-propos.html">À Propos</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="index.html#faq">FAQ</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-main">
+            <div class="container">
+                <a href="index.html" class="logo">
+                    <img src="logo.png" alt="La Brigade Mobile">
+                </a>
+                
+                <div class="search-bar">
+                    <span class="material-symbols-outlined" style="color:#666;">search</span>
+                    <input type="text" placeholder="Rechercher un produit, une marque…">
+                </div>
+
+                <div class="header-actions">
+                    <div class="action-icon" title="Favoris">
+                        <span class="material-symbols-outlined">favorite</span>
+                    </div>
+                    <a href="panier.html" class="action-icon" title="Panier">
+                        <span class="material-symbols-outlined">shopping_cart</span>
+                        <span class="badge">2</span>
+                    </a>
+                    <a href="contact.html" class="btn-primary">Contact & Devis</a>
+                </div>
+            </div>
+        </div>
+
+        <nav class="header-nav">
+            <div class="container">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="smartphones.html" class="nav-link">Téléphone</a>
+                        <div class="mega-menu">
+                            <div class="mega-menu-column">
+                                <h3>Marques</h3>
+                                <ul>
+                                    <li><a href="smartphones.html">iPhone</a></li>
+                                    <li><a href="smartphones.html">Samsung</a></li>
+                                    <li><a href="smartphones.html">Huawei</a></li>
+                                    <li><a href="smartphones.html">Xiaomi</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h3>Populaires</h3>
+                                <ul>
+                                    <li><a href="product.html">iPhone 13</a></li>
+                                    <li><a href="product.html">Galaxy S22</a></li>
+                                    <li><a href="product.html">iPhone 12</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=300" alt="Promo" style="border-radius:8px; height:150px; object-fit:cover;">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="ordinateurs.html" class="nav-link">Ordinateur</a>
+                        <div class="mega-menu">
+                            <div class="mega-menu-column">
+                                <h3>Apple</h3>
+                                <ul>
+                                    <li><a href="ordinateurs.html">MacBook Air</a></li>
+                                    <li><a href="ordinateurs.html">MacBook Pro</a></li>
+                                    <li><a href="ordinateurs.html">iMac</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h3>PC Windows</h3>
+                                <ul>
+                                    <li><a href="ordinateurs.html">Dell</a></li>
+                                    <li><a href="ordinateurs.html">HP</a></li>
+                                    <li><a href="ordinateurs.html">Lenovo</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=300" alt="Promo PC" style="border-radius:8px; height:150px; object-fit:cover;">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="tablettes.html" class="nav-link">Tablette</a>
+                        <div class="mega-menu">
+                            <div class="mega-menu-column">
+                                <h3>Marques</h3>
+                                <ul>
+                                    <li><a href="tablettes.html">Apple iPad</a></li>
+                                    <li><a href="tablettes.html">Samsung Galaxy Tab</a></li>
+                                    <li><a href="tablettes.html">Lenovo</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <img src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?q=80&w=300" alt="Promo Tablette" style="border-radius:8px; height:150px; object-fit:cover;">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="logiciels.html" class="nav-link">Clé & Logiciel</a>
+                        <div class="mega-menu">
+                            <div class="mega-menu-column">
+                                <h3>Systèmes</h3>
+                                <ul>
+                                    <li><a href="logiciels.html">Windows 11 Pro</a></li>
+                                    <li><a href="logiciels.html">Windows 10</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h3>Bureautique & Sécurité</h3>
+                                <ul>
+                                    <li><a href="logiciels.html">Office 2021</a></li>
+                                    <li><a href="logiciels.html">Microsoft 365</a></li>
+                                    <li><a href="logiciels.html">Bitdefender / Norton</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="materiel.html" class="nav-link">Matériel</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="reparation.html" class="nav-link">Réparation <span class="badge-expert">Expert</span></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1 style="margin-top: 3rem; font-size: 3rem; text-transform: uppercase; text-align: center;" class="fade-in-up">Contactez-nous</h1>
+        <p style="text-align: center; color: #666; max-width: 600px; margin: 0 auto;" class="fade-in-up" style="transition-delay:0.1s;">Une question ? Un besoin de devis ? Notre équipe est à votre disposition pour vous répondre dans les plus brefs délais.</p>
+
+        <section class="contact-container">
+            <div class="contact-form fade-in-up" style="transition-delay:0.2s;">
+                <h2 style="margin-bottom: 2rem;">Envoyez un message</h2>
+                <form>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+                        <div class="form-group"><label>Nom complet</label><input type="text" class="form-control" placeholder="Jean Dupont"></div>
+                        <div class="form-group"><label>Téléphone</label><input type="tel" class="form-control" placeholder="06 12 34 56 78"></div>
+                    </div>
+                    <div class="form-group"><label>Email</label><input type="email" class="form-control" placeholder="jean@email.com"></div>
+                    <div class="form-group">
+                        <label>Sujet</label>
+                        <select class="form-control">
+                            <option>Information produit</option>
+                            <option>Demande de devis réparation</option>
+                            <option>Suivi de commande</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Message</label><textarea class="form-control" rows="5" placeholder="Comment pouvons-nous vous aider ?"></textarea></div>
+                    <button type="button" class="btn-primary" style="width:100%; font-size:1.1rem;"><span class="material-symbols-outlined icon-small">send</span> Envoyer le message</button>
+                </form>
+            </div>
+
+            <div class="fade-in-up" style="transition-delay:0.3s;">
+                <div class="contact-info">
+                    <h2 style="color:var(--color-primary); margin-bottom: 2rem;">Notre Boutique</h2>
+                    <div class="info-item">
+                        <span class="info-icon"><span class="material-symbols-outlined">location_on</span></span>
+                        <div>
+                            <h4 style="margin-bottom:0.25rem;">Adresse de l'atelier</h4>
+                            <p style="color:#ccc;">65 Route de Blagnac<br>31300 Toulouse<br><span style="font-size:0.85rem; color:#aaa;">Accès: L1, Bus 70 - Arrêt "Cité Madrid"</span></p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon"><span class="material-symbols-outlined">call</span></span>
+                        <div>
+                            <h4 style="margin-bottom:0.25rem;">Téléphone</h4>
+                            <p style="color:#ccc;">07 56 91 65 93<br><span style="font-size:0.85rem;">Lun-Ven : 9h-19h | Samedi : 10h-18h</span></p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon"><span class="material-symbols-outlined">mail</span></span>
+                        <div>
+                            <h4 style="margin-bottom:0.25rem;">Email</h4>
+                            <p style="color:#ccc;">contact@reparephone-toulouse.fr</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2888.583307409257!2d1.4172464766861595!3d43.61522205490151!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12aebaba79fdbb7b%3A0x286d9a9ba47a16f2!2s65%20Rte%20de%20Blagnac%2C%2031200%20Toulouse!5e0!3m2!1sfr!2sfr!4v1715481234567!5m2!1sfr!2sfr" width="100%" height="100%" style="border:0; border-radius: var(--radius);" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER COMPLET AVEC INFO TOULOUSE -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <img src="logo.png" alt="La Brigade Mobile" style="height:40px; margin-bottom:1rem; filter:brightness(0) invert(1);">
+                    <p style="color:#ccc; margin-bottom:1rem;">La tech qui tourne rond. Pour vous, pour la planète.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><span class="material-symbols-outlined">smartphone</span></a>
+                        <a href="#" class="social-icon"><span class="material-symbols-outlined">photo_camera</span></a>
+                        <a href="#" class="social-icon"><span class="material-symbols-outlined">work</span></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Nos produits</h4>
+                    <ul>
+                        <li><a href="smartphones.html">Smartphones reconditionnés</a></li>
+                        <li><a href="ordinateurs.html">PC & Mac reconditionnés</a></li>
+                        <li><a href="tablettes.html">Tablettes reconditionnées</a></li>
+                        <li><a href="materiel.html">Matériel & Accessoires</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>La Brigade Mobile</h4>
+                    <ul>
+                        <li><a href="a-propos.html">Qui sommes-nous ?</a></li>
+                        <li><a href="contact.html">Contact & Devis</a></li>
+                        <li><a href="index.html#faq">FAQ</a></li>
+                        <li><a href="#">Conditions Générales de Vente</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Informations Pratiques</h4>
+                    <p style="color:#ccc; font-size:0.9rem; margin-bottom:0.75rem; line-height:1.4;"><span class="material-symbols-outlined icon-small">location_on</span> 65 Route de Blagnac, 31300 Toulouse<br>Accès: L1, Bus 70 - Arrêt "Cité Madrid"</p>
+                    <p style="color:#ccc; font-size:0.9rem; margin-bottom:0.75rem;"><span class="material-symbols-outlined icon-small">call</span> 07 56 91 65 93</p>
+                    <p style="color:#ccc; font-size:0.9rem; margin-bottom:0.75rem;"><span class="material-symbols-outlined icon-small">mail</span> contact@reparephone-toulouse.fr</p>
+                    <p style="color:#ccc; font-size:0.9rem;"><span class="material-symbols-outlined icon-small">schedule</span> Lun-Ven : 9h-19h | Sam : 10h-18h</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 La Brigade Mobile par ReparePhone Toulouse — Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in-up').forEach((el) => observer.observe(el));
+
+            const currentUrl = window.location.pathname.split('/').pop() || 'index.html';
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.getAttribute('href') === currentUrl) link.style.color = 'var(--color-primary)';
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        });
+    </script>
+</body>
+</html>
