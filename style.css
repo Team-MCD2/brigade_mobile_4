@@ -201,6 +201,52 @@ img { max-width: 100%; height: auto; display: block; }
   .mascot-bubble { display: none; }
   .mascot-img { height: 90px; }
 }
+/* DEVIS WIZARD */
+.devis-container { max-width: 900px; margin: 4rem auto; padding: 2rem; background: var(--color-white); border-radius: 1.5rem; box-shadow: var(--shadow); border: 1px solid #EEE; position: relative; z-index: 10; }
+.step-content:not(#step-1) { display: none; }
+.step-content.hidden { display: none !important; }
+.progress-container { margin-bottom: 3rem; text-align: center; }
+.progress-bar { height: 8px; background: #E0E0E0; border-radius: 4px; margin-top: 1rem; position: relative; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--color-primary); width: 0%; transition: width 0.3s ease; }
+.step-title { font-size: 2.5rem; margin-bottom: 0.5rem; text-transform: uppercase; font-family: 'Bebas Neue', sans-serif; color: var(--color-dark); }
+.step-desc { color: #666; margin-bottom: 2rem; font-size: 1.1rem; font-family: var(--font-body); }
+.wizard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+.wizard-option { 
+    border: 1px solid #E0E0E0; 
+    border-radius: 12px; 
+    padding: 1.5rem; 
+    cursor: pointer; 
+    transition: var(--transition); 
+    text-align: left; 
+    background: var(--color-white); 
+    width: 100%;
+    font-family: inherit;
+    display: flex;
+    flex-direction: column;
+}
+.wizard-option:hover { border-color: var(--color-primary); background: rgba(255, 214, 0, 0.05); transform: translateY(-2px); }
+.wizard-option.active { border-color: var(--color-primary); background: rgba(255, 214, 0, 0.1); box-shadow: 0 0 0 2px var(--color-primary); }
+.wizard-option h3 { margin-bottom: 0.5rem; font-size: 1.25rem; text-transform: uppercase; font-family: 'Bebas Neue', sans-serif; }
+.wizard-option p { font-size: 0.85rem; color: #666; font-family: var(--font-body); line-height: 1.4; }
+.wizard-footer { display: flex; justify-content: space-between; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #EEE; }
+
+.symptom-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+.symptom-item { display: flex; align-items: flex-start; gap: 1rem; border: 1px solid #EEE; padding: 1.25rem; border-radius: 12px; cursor: pointer; background: var(--color-white); transition: var(--transition); }
+.symptom-item input { margin-top: 0.25rem; width: 18px; height: 18px; cursor: pointer; }
+.symptom-item:hover { background: #F9F9F9; border-color: var(--color-primary); transform: translateY(-2px); }
+.symptom-item strong { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 0.5px; }
+
+.slot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 0.5rem; }
+.slot-btn { padding: 0.75rem; border: 1px solid #EEE; border-radius: 8px; background: white; cursor: pointer; font-size: 0.9rem; font-weight: 600; font-family: var(--font-body); transition: var(--transition); }
+.slot-btn:hover { background: var(--color-light); border-color: var(--color-primary); }
+.slot-btn.active { background: var(--color-primary); border-color: var(--color-primary); color: var(--color-dark); }
+
+.recap-card { background: rgba(255, 214, 0, 0.05); border: 1px dashed var(--color-primary); padding: 2rem; border-radius: 1rem; margin-bottom: 2rem; }
+.recap-price { font-size: 3rem; font-weight: bold; margin: 0.5rem 0; color: var(--color-dark); font-family: 'Bebas Neue', sans-serif; }
+
+.hidden { display: none !important; }
+
+
 /* SERVICE CATALOG (ASSET1) */
 .catalog-section { padding: 5rem 0; }
 .catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
@@ -251,6 +297,7 @@ img { max-width: 100%; height: auto; display: block; }
     text-decoration: none;
     color: inherit;
     font-weight: bold;
+    background: white;
 }
 .brand-card:hover { border-color: var(--color-primary); background: rgba(255, 214, 0, 0.05); transform: scale(1.05); }
 
