@@ -201,3 +201,33 @@ img { max-width: 100%; height: auto; display: block; }
   .mascot-bubble { display: none; }
   .mascot-img { height: 90px; }
 }
+/* DEVIS WIZARD */
+.devis-container { max-width: 800px; margin: 4rem auto; padding: 0 1rem; }
+.progress-container { margin-bottom: 3rem; text-align: center; }
+.progress-bar { height: 8px; background: #E0E0E0; border-radius: 4px; margin-top: 1rem; position: relative; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--color-primary); width: 0%; transition: width 0.3s ease; }
+.step-title { font-size: 2rem; margin-bottom: 0.5rem; }
+.step-desc { color: #666; margin-bottom: 2rem; }
+.wizard-card { background: var(--color-white); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow); border: 1px solid #E0E0E0; }
+.wizard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+.wizard-option { border: 1px solid #E0E0E0; border-radius: var(--radius); padding: 1.5rem; cursor: pointer; transition: var(--transition); text-align: left; background: none; width: 100%; }
+.wizard-option:hover { border-color: var(--color-primary); background: rgba(255, 214, 0, 0.05); transform: translateY(-2px); }
+.wizard-option.active { border-color: var(--color-primary); background: rgba(255, 214, 0, 0.1); box-shadow: 0 0 0 2px var(--color-primary); }
+.wizard-option h3 { margin-bottom: 0.5rem; font-size: 1.25rem; }
+.wizard-option p { font-size: 0.85rem; color: #666; font-family: var(--font-body); }
+.wizard-footer { display: flex; justify-content: space-between; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #EEE; }
+
+.symptom-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
+.symptom-item { display: flex; align-items: flex-start; gap: 1rem; border: 1px solid #EEE; padding: 1rem; border-radius: 8px; cursor: pointer; }
+.symptom-item input { margin-top: 0.25rem; }
+.symptom-item:hover { background: #F9F9F9; }
+
+.slot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 0.5rem; }
+.slot-btn { padding: 0.5rem; border: 1px solid #EEE; border-radius: 4px; background: none; cursor: pointer; font-size: 0.85rem; }
+.slot-btn:hover { background: var(--color-light); border-color: var(--color-primary); }
+.slot-btn.active { background: var(--color-primary); border-color: var(--color-primary); font-weight: bold; }
+
+.recap-card { background: rgba(255, 214, 0, 0.05); border: 1px dashed var(--color-primary); padding: 1.5rem; border-radius: var(--radius); margin-bottom: 2rem; }
+.recap-price { font-size: 2.5rem; font-weight: bold; margin: 0.5rem 0; }
+
+.hidden { display: none; }
