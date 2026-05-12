@@ -3,22 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Réparation | La Brigade Mobile</title>
+    <title>Services de Réparation | La Brigade Mobile</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .hero-reparation { background: url('https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?q=80&w=1920') center/cover; padding: 6rem 0; color: var(--color-white); text-align: center; position: relative; }
-        .hero-reparation::before { content:''; position:absolute; inset:0; background:rgba(28,28,30,0.8); }
-        .repa-blocks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: -3rem; position: relative; z-index: 10; padding: 0 1rem; }
-        .repa-card { background: var(--color-white); padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow); text-align: center; }
-        .repa-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--color-dark); display:flex; align-items:center; justify-content:center; gap:0.5rem; }
-        .repa-list { text-align: left; margin: 1.5rem 0; color: #555; }
-        .repa-list li { padding: 0.5rem 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
-        .form-devis { background: var(--color-light); padding: 3rem; border-radius: var(--radius); max-width: 800px; margin: 0 auto; }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
-        .form-control { width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 8px; font-family: var(--font-body); }
-        @media (max-width: 768px) { .repa-blocks { grid-template-columns: 1fr; margin-top: 2rem; } .form-devis { padding: 1.5rem; } }
-    </style>
 </head>
 <body>
     <!-- STICKY HEADER COMPLET -->
@@ -43,12 +29,10 @@
                 <a href="index.html" class="logo">
                     <img src="logo.png" alt="La Brigade Mobile">
                 </a>
-                
                 <div class="search-bar">
                     <span class="material-symbols-outlined" style="color:#666;">search</span>
                     <input type="text" placeholder="Rechercher un service ou produit…">
                 </div>
-
                 <div class="header-actions">
                     <a href="devis.html" class="btn-primary">Demander un Devis</a>
                 </div>
@@ -58,139 +42,94 @@
         <nav class="header-nav">
             <div class="container">
                 <ul class="nav-list">
-                    <li class="nav-item">
-                        <a href="reparation.html" class="nav-link">Réparation <span class="badge-expert">Expert</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="smartphones.html" class="nav-link">Téléphone</a>
-                        <div class="mega-menu">
-                            <div class="mega-menu-column">
-                                <h3>Marques</h3>
-                                <ul>
-                                    <li><a href="smartphones.html">iPhone</a></li>
-                                    <li><a href="smartphones.html">Samsung</a></li>
-                                    <li><a href="smartphones.html">Huawei</a></li>
-                                    <li><a href="smartphones.html">Xiaomi</a></li>
-                                </ul>
-                            </div>
-                            <div class="mega-menu-column">
-                                <h3>Populaires</h3>
-                                <ul>
-                                    <li><a href="product.html">iPhone 13</a></li>
-                                    <li><a href="product.html">Galaxy S22</a></li>
-                                    <li><a href="product.html">iPhone 12</a></li>
-                                </ul>
-                            </div>
-                            <div class="mega-menu-column">
-                                <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=300" alt="Promo" style="border-radius:8px; height:150px; object-fit:cover;">
-                            </div>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a href="ordinateurs.html" class="nav-link">Ordinateur</a>
-                        <div class="mega-menu">
-                            <div class="mega-menu-column">
-                                <h3>Apple</h3>
-                                <ul>
-                                    <li><a href="ordinateurs.html">MacBook Air</a></li>
-                                    <li><a href="ordinateurs.html">MacBook Pro</a></li>
-                                    <li><a href="ordinateurs.html">iMac</a></li>
-                                </ul>
-                            </div>
-                            <div class="mega-menu-column">
-                                <h3>PC Windows</h3>
-                                <ul>
-                                    <li><a href="ordinateurs.html">Dell</a></li>
-                                    <li><a href="ordinateurs.html">HP</a></li>
-                                    <li><a href="ordinateurs.html">Lenovo</a></li>
-                                </ul>
-                            </div>
-                            <div class="mega-menu-column">
-                                <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=300" alt="Promo PC" style="border-radius:8px; height:150px; object-fit:cover;">
-                            </div>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a href="tablettes.html" class="nav-link">Tablette</a>
-                        <div class="mega-menu">
-                            <div class="mega-menu-column">
-                                <h3>Marques</h3>
-                                <ul>
-                                    <li><a href="tablettes.html">Apple iPad</a></li>
-                                    <li><a href="tablettes.html">Samsung Galaxy Tab</a></li>
-                                    <li><a href="tablettes.html">Lenovo</a></li>
-                                </ul>
-                            </div>
-                            <div class="mega-menu-column">
-                                <img src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?q=80&w=300" alt="Promo Tablette" style="border-radius:8px; height:150px; object-fit:cover;">
-                            </div>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a href="logiciels.html" class="nav-link">Clé & Logiciel</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="materiel.html" class="nav-link">Matériel</a>
-                    </li>
+                    <li class="nav-item"><a href="reparation.html" class="nav-link">Réparation <span class="badge-expert">Expert</span></a></li>
+                    <li class="nav-item"><a href="smartphones.html" class="nav-link">Téléphone</a></li>
+                    <li class="nav-item"><a href="ordinateurs.html" class="nav-link">Ordinateur</a></li>
+                    <li class="nav-item"><a href="tablettes.html" class="nav-link">Tablette</a></li>
+                    <li class="nav-item"><a href="logiciels.html" class="nav-link">Clé & Logiciel</a></li>
+                    <li class="nav-item"><a href="materiel.html" class="nav-link">Matériel</a></li>
                 </ul>
             </div>
         </nav>
     </header>
 
     <main>
-        <section class="hero-reparation">
-            <div class="container fade-in-up" style="position:relative; z-index:2;">
-                <h1 style="font-size:3.5rem; text-transform:uppercase; margin-bottom:1rem;">Atelier de Réparation</h1>
-                <p style="font-size:1.2rem; max-width:600px; margin:0 auto 2rem;">Des experts qualifiés pour donner une seconde vie à vos appareils. Rapide, garanti et au juste prix.</p>
-                <a href="#devis" class="btn-primary" style="font-size:1.1rem; padding:1rem 2rem;">Obtenir un devis gratuit</a>
+        <section class="container" style="text-align: center; padding: 5rem 0 3rem;">
+            <p style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; color: #888; font-weight: bold; margin-bottom: 1rem;">Catalogue des Réparations</p>
+            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Services Experts</h1>
+            <p style="max-width: 600px; margin: 0 auto; color: #666;">Typologie claire, engagement sur la transparence et garantie 12 mois sur toutes nos interventions à Toulouse.</p>
+        </section>
+
+        <section class="container catalog-section">
+            <div class="catalog-grid">
+                <!-- FEATURED SERVICE -->
+                <a href="reparation-marque.html?cat=smartphone" class="catalog-item featured">
+                    <div>
+                        <div class="catalog-icon">
+                            <span class="material-symbols-outlined">smartphone</span>
+                        </div>
+                        <h2>Réparation Smartphone</h2>
+                        <p>De l'iPhone à Samsung, nous intervenons sur tous les modèles de smartphones. Écran cassé, batterie fatiguée ou connecteur de charge récalcitrant, nos experts s'occupent de tout en un temps record.</p>
+                    </div>
+                    <span class="catalog-link">Voir les marques <span class="material-symbols-outlined">arrow_forward</span></span>
+                </a>
+
+                <!-- OTHER SERVICES -->
+                <a href="reparation-marque.html?cat=ordinateur" class="catalog-item">
+                    <div>
+                        <div class="catalog-icon" style="background: #E3F2FD;">
+                            <span class="material-symbols-outlined" style="color: #1976D2;">laptop</span>
+                        </div>
+                        <h2>Ordinateurs & Mac</h2>
+                        <p>Diagnostic complet pour MacBook et PC Portables. Remplacement clavier, écran ou optimisation système.</p>
+                    </div>
+                    <span class="catalog-link">Détails <span class="material-symbols-outlined">arrow_forward</span></span>
+                </a>
+
+                <a href="devis.html" class="catalog-item">
+                    <div>
+                        <div class="catalog-icon" style="background: #F1F8E9;">
+                            <span class="material-symbols-outlined" style="color: #388E3C;">droplets</span>
+                        </div>
+                        <h2>Désoxydation</h2>
+                        <p>Votre appareil a pris l'eau ? N'attendez pas ! Traitement immédiat pour maximiser les chances de survie.</p>
+                    </div>
+                    <span class="catalog-link">Agir vite <span class="material-symbols-outlined">arrow_forward</span></span>
+                </a>
+
+                <a href="reparation-marque.html?cat=tablette" class="catalog-item">
+                    <div>
+                        <div class="catalog-icon" style="background: #FFF3E0;">
+                            <span class="material-symbols-outlined" style="color: #F57C00;">tablet_mac</span>
+                        </div>
+                        <h2>Tablettes / iPad</h2>
+                        <p>Vitre tactile brisée ou problème d'affichage sur votre iPad ou Galaxy Tab. Réparation certifiée.</p>
+                    </div>
+                    <span class="catalog-link">Détails <span class="material-symbols-outlined">arrow_forward</span></span>
+                </a>
+
+                <a href="devis.html" class="catalog-item">
+                    <div>
+                        <div class="catalog-icon" style="background: #FCE4EC;">
+                            <span class="material-symbols-outlined" style="color: #C2185B;">cable</span>
+                        </div>
+                        <h2>Connectique</h2>
+                        <p>Prise jack, port de charge USB-C ou Lightning. Nous remplaçons les composants défectueux.</p>
+                    </div>
+                    <span class="catalog-link">Infos <span class="material-symbols-outlined">arrow_forward</span></span>
+                </a>
             </div>
         </section>
 
-        <section class="container">
-            <div class="repa-blocks">
-                <div class="repa-card fade-in-up" style="transition-delay:0.1s;">
-                    <h3><span class="material-symbols-outlined">smartphone</span> Téléphone</h3>
-                    <p style="font-size:0.9rem; color:#666;">Écran cassé, batterie faible...</p>
-                    <ul class="repa-list">
-                        <li><span>Changement écran</span> <strong>Dès 69€</strong></li>
-                        <li><span>Remplacement batterie</span> <strong>Dès 49€</strong></li>
-                    </ul>
+        <section style="background: var(--color-light); padding: 4rem 0;">
+            <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem;">
+                <div>
+                    <h2 style="margin-bottom: 0.5rem;">Un cas particulier ?</h2>
+                    <p style="color: #666;">Notre outil de devis guidé couvre toutes les marques et toutes les pannes.</p>
                 </div>
-                <div class="repa-card fade-in-up" style="transition-delay:0.2s;">
-                    <h3><span class="material-symbols-outlined">laptop_mac</span> Ordinateur</h3>
-                    <p style="font-size:0.9rem; color:#666;">Optimisation, dépannage...</p>
-                    <ul class="repa-list">
-                        <li><span>Nettoyage</span> <strong>Dès 59€</strong></li>
-                        <li><span>Récupération données</span> <strong>Sur devis</strong></li>
-                    </ul>
-                </div>
-                <div class="repa-card fade-in-up" style="transition-delay:0.3s;">
-                    <h3><span class="material-symbols-outlined">tablet_mac</span> Tablette</h3>
-                    <p style="font-size:0.9rem; color:#666;">Vitre tactile, boutons...</p>
-                    <ul class="repa-list">
-                        <li><span>Changement vitre</span> <strong>Dès 79€</strong></li>
-                        <li><span>Batterie</span> <strong>Dès 59€</strong></li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section class="section-padding" id="devis">
-            <div class="container fade-in-up">
-                <h2 class="section-title">Demander un diagnostic</h2>
-                <div class="form-devis">
-                    <form>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" class="form-control" placeholder="jean.dupont@email.com">
-                        </div>
-                        <div class="form-group">
-                            <label>Description de la panne</label>
-                            <textarea class="form-control" rows="5" placeholder="L'écran est fissuré..."></textarea>
-                        </div>
-                        <button type="button" class="btn-primary" style="width:100%;">Envoyer ma demande</button>
-                    </form>
-                </div>
+                <a href="devis.html" class="btn-primary" style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span class="material-symbols-outlined">auto_fix_high</span> Lancer le Devis Guidé
+                </a>
             </div>
         </section>
     </main>
@@ -231,25 +170,5 @@
             </div>
         </div>
     </footer>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.fade-in-up').forEach((el) => observer.observe(el));
-
-            const currentUrl = window.location.pathname.split('/').pop() || 'index.html';
-            document.querySelectorAll('.nav-link').forEach(link => {
-                if (link.getAttribute('href') === currentUrl) link.style.color = 'var(--color-primary)';
-            });
-        });
-
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('main-header');
-            if (window.scrollY > 50) header.classList.add('scrolled');
-            else header.classList.remove('scrolled');
-        });
-    </script>
 </body>
 </html>
