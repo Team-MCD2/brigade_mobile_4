@@ -1,0 +1,79 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Produit | La Brigade Mobile">
+    <main class="container product-page">
+        <div class="product-gallery fade-in-up">
+            <div class="main-img-container">
+                <img id="main-product-img" src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?q=80&w=600" alt="Produit">
+            </div>
+            <div class="thumbnail-list">
+                <img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?q=80&w=200" alt="Thumb" class="thumbnail active">
+                <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=200" alt="Thumb" class="thumbnail">
+            </div>
+        </div>
+        
+        <div class="product-details fade-in-up" style="transition-delay: 0.1s;">
+            <div style="color:#666; font-size:0.9rem; margin-bottom:0.5rem;"><a href="/">Accueil</a> > <a href="/smartphones">Produits</a> > <span id="breadcrumb-name">Produit</span></div>
+            <h1 id="product-name">Apple iPhone 13</h1>
+            <div class="stars" style="font-size:1.1rem;">
+                <span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span>
+                <span style="color:#666; font-size:0.9rem; margin-left:0.5rem;">124 avis</span>
+            </div>
+            <div class="price-huge" id="product-price">459,00 €</div>
+            
+            <div class="option-group">
+                <h4>État esthétique</h4>
+                <div class="options-list">
+                    <button class="option-btn">Correct</button>
+                    <button class="option-btn">Bon état</button>
+                    <button class="option-btn active">Très bon état</button>
+                    <button class="option-btn">Comme neuf</button>
+                </div>
+            </div>
+            
+            <div class="option-group">
+                <h4>Capacité</h4>
+                <div class="options-list">
+                    <button class="option-btn active">128 Go</button>
+                    <button class="option-btn">256 Go</button>
+                    <button class="option-btn">512 Go</button>
+                </div>
+            </div>
+            
+            <div style="display:flex; gap:1rem; margin-top:2rem;">
+                <a href="#" id="devis-direct-btn" class="btn-primary" style="flex:1; font-size:1.1rem;"><span class="material-symbols-outlined">build</span> Réparer cet appareil</a>
+                <a href="/contact" class="btn-secondary" style="flex:1; font-size:1.1rem;"><span class="material-symbols-outlined">mail</span> Infos achat</a>
+            </div>
+            
+            <div class="reassurance-list">
+                <div class="reassurance-item"><span class="material-symbols-outlined">workspace_premium</span> <span><strong>Testé sur 42 points</strong> dans notre atelier ReparePhone</span></div>
+                <div class="reassurance-item"><span class="material-symbols-outlined">battery_charging_full</span> <span><strong>Batterie garantie</strong> supérieure à 80%</span></div>
+                <div class="reassurance-item"><span class="material-symbols-outlined">local_shipping</span> <span><strong>Livraison gratuite</strong> en 24/48h</span></div>
+                <div class="reassurance-item"><span class="material-symbols-outlined">sync</span> <span><strong>30 jours</strong> pour changer d'avis</span></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            const name = params.get('name') || 'Apple iPhone 13';
+            const price = params.get('price') || '459';
+            const img = params.get('img') || 'https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?q=80&w=600';
+
+            document.title = `${name} | La Brigade Mobile`;
+            document.getElementById('product-name')!.innerText = name;
+            document.getElementById('product-price')!.innerText = `${price},00 €`;
+            (document.getElementById('main-product-img') as HTMLImageElement).src = img;
+            (document.getElementById('main-product-img') as HTMLImageElement).alt = name;
+            document.getElementById('breadcrumb-name')!.innerText = name;
+
+            const devisBtn = document.getElementById('devis-direct-btn');
+            if (devisBtn) {
+                devisBtn.setAttribute('href', `/devis?model=${encodeURIComponent(name)}`);
+            }
+        });
+    </script>
+</Layout>

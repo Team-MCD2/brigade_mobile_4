@@ -1,0 +1,80 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Clés et Logiciels | La Brigade Mobile">
+    <main>
+        <section class="hero-slim">
+            <div class="container fade-in-up" style="position:relative; z-index:2;">
+                <h1 style="font-size:3rem; text-transform:uppercase;">Clés & Logiciels</h1>
+                <p>Licences officielles à des prix imbattables. Livraison instantanée.</p>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="logiciels-grid">
+                <div class="logiciel-card fade-in-up" style="transition-delay:0.1s;">
+                    <div class="logiciel-icon"><span class="material-symbols-outlined" style="font-size:inherit;">description</span></div>
+                    <h3 class="logiciel-title">Microsoft Office 2021 Pro Plus</h3>
+                    <p style="color:#666; font-size:0.9rem; margin-bottom:1rem;">Licence à vie - 1 PC</p>
+                    <div class="logiciel-price">29,99€</div>
+                    <button class="btn-primary logiciel-buy-btn" data-product="Microsoft Office 2021 Pro Plus" data-price="29,99€" style="width:100%;">Acheter & Activer</button>
+                </div>
+                <div class="logiciel-card fade-in-up" style="transition-delay:0.2s;">
+                    <div class="logiciel-icon"><span class="material-symbols-outlined" style="font-size:inherit;">window</span></div>
+                    <h3 class="logiciel-title">Windows 11 Pro OEM</h3>
+                    <p style="color:#666; font-size:0.9rem; margin-bottom:1rem;">Clé d'activation officielle</p>
+                    <div class="logiciel-price">19,99€</div>
+                    <button class="btn-primary logiciel-buy-btn" data-product="Windows 11 Pro OEM" data-price="19,99€" style="width:100%;">Acheter & Activer</button>
+                </div>
+                <div class="logiciel-card fade-in-up" style="transition-delay:0.3s;">
+                    <div class="logiciel-icon"><span class="material-symbols-outlined" style="font-size:inherit;">security</span></div>
+                    <h3 class="logiciel-title">Bitdefender Total Security</h3>
+                    <p style="color:#666; font-size:0.9rem; margin-bottom:1rem;">1 an - 5 appareils</p>
+                    <div class="logiciel-price">34,99€</div>
+                    <button class="btn-primary logiciel-buy-btn" data-product="Bitdefender Total Security" data-price="34,99€" style="width:100%;">Acheter & Activer</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.querySelectorAll('.logiciel-buy-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const product = (btn as HTMLElement).getAttribute('data-product') || '';
+                const price = (btn as HTMLElement).getAttribute('data-price') || '';
+
+                const customerEmail = prompt('Votre email pour recevoir la clé :');
+                if (!customerEmail) return;
+                const customerName = prompt('Votre nom :');
+                if (!customerName) return;
+
+                (btn as HTMLButtonElement).innerHTML = 'Traitement...';
+                (btn as HTMLButtonElement).disabled = true;
+
+                try {
+                    const response = await fetch('/api/commande', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ product, price, customerEmail, customerName })
+                    });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        (btn as HTMLElement).innerHTML = 'Commandé !';
+                        (btn as HTMLElement).style.background = '#4CAF50';
+                        (btn as HTMLElement).style.color = 'white';
+                        alert(`Commande "${product}" (${price}) enregistrée !\n\nVous recevrez votre clé d'activation par email sous 15 minutes.`);
+                    } else {
+                        throw new Error('Erreur');
+                    }
+                } catch (err) {
+                    alert('Erreur lors de la commande. Veuillez réessayer.');
+                    (btn as HTMLButtonElement).innerHTML = 'Acheter & Activer';
+                    (btn as HTMLButtonElement).disabled = false;
+                }
+            });
+        });
+    </script>
+</Layout>

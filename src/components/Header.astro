@@ -1,0 +1,146 @@
+---
+const currentPath = Astro.url.pathname;
+---
+
+<header class="header-sticky" id="main-header">
+    <div class="utility-bar">
+        <div class="container">
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+                <span class="material-symbols-outlined icon-small">build</span> Réparation Express en 30 min | 
+                <span class="material-symbols-outlined icon-small">verified</span> Garantie 12 mois | 
+                <span class="material-symbols-outlined icon-small">location_on</span> Atelier à Toulouse
+            </div>
+            <div class="utility-links">
+                <a href="/a-propos">À Propos</a>
+                <a href="/contact">Contact</a>
+                <a href="/#faq">FAQ</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-main">
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="/logo.png" alt="La Brigade Mobile">
+            </a>
+            
+            <div class="search-bar">
+                <span class="material-symbols-outlined" style="color:#666;">search</span>
+                <input type="text" placeholder="Rechercher un service ou produit…">
+            </div>
+
+            <div class="header-actions">
+                <a href="/devis" class="btn-primary">Demander un Devis</a>
+                <span class="material-symbols-outlined hamburger" style="display:none; margin-left: 1rem;">menu</span>
+            </div>
+        </div>
+    </div>
+
+    <nav class="header-nav">
+        <div class="container">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="/reparation" class="nav-link" style="color:var(--color-primary); font-weight:700;">Réparation <span class="badge-expert">N°1</span></a>
+                    <div class="mega-menu">
+                        <div class="mega-menu-column">
+                            <h3>Par Appareil</h3>
+                            <ul>
+                                <li><a href="/reparation-marque?cat=smartphone">Smartphone</a></li>
+                                <li><a href="/reparation-marque?cat=ordinateur">Ordinateur / Mac</a></li>
+                                <li><a href="/reparation-marque?cat=tablette">Tablette / iPad</a></li>
+                                <li><a href="/reparation">Console de jeux</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-column">
+                            <h3>Par Panne</h3>
+                            <ul>
+                                <li><a href="/devis">Écran cassé</a></li>
+                                <li><a href="/devis">Batterie</a></li>
+                                <li><a href="/devis">Connecteur de charge</a></li>
+                                <li><a href="/devis?cat=micro-soudure">Micro-soudure</a></li>
+                                <li><a href="/devis?cat=deoxydation">Désoxydation</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-column" style="background:var(--color-primary); color:white; padding:1.5rem; border-radius:8px; text-align:center;">
+                            <span class="material-symbols-outlined" style="font-size:2.5rem;">build</span>
+                            <h3 style="margin:0.5rem 0; color:white;">Devis Gratuit</h3>
+                            <p style="font-size:0.85rem; margin-bottom:1rem; color:rgba(255,255,255,0.9);">Réponse en 2h, réparation en 30 min</p>
+                            <a href="/devis" style="background:white; color:var(--color-primary); padding:0.5rem 1rem; border-radius:6px; font-weight:bold; text-decoration:none; display:inline-block;">Lancer le devis</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="/smartphones" class="nav-link">Téléphone</a>
+                    <div class="mega-menu">
+                        <div class="mega-menu-column">
+                            <h3>Marques</h3>
+                            <ul>
+                                <li><a href="/smartphones">iPhone</a></li>
+                                <li><a href="/smartphones">Samsung</a></li>
+                                <li><a href="/smartphones">Huawei</a></li>
+                                <li><a href="/smartphones">Xiaomi</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-column">
+                            <h3>Populaires</h3>
+                            <ul>
+                                <li><a href="/product">iPhone 13</a></li>
+                                <li><a href="/product">Galaxy S22</a></li>
+                                <li><a href="/product">iPhone 12</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-column">
+                            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=300" alt="Promo" style="border-radius:8px; height:150px; object-fit:cover;">
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="/ordinateurs" class="nav-link">Ordinateur</a>
+                    <div class="mega-menu">
+                        <div class="mega-menu-column">
+                            <h3>Apple</h3>
+                            <ul>
+                                <li><a href="/ordinateurs">MacBook Air</a></li>
+                                <li><a href="/ordinateurs">MacBook Pro</a></li>
+                                <li><a href="/ordinateurs">iMac</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-column">
+                            <h3>PC Windows</h3>
+                            <ul>
+                                <li><a href="/ordinateurs">Dell</a></li>
+                                <li><a href="/ordinateurs">HP</a></li>
+                                <li><a href="/ordinateurs">Lenovo</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-column">
+                            <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=300" alt="Promo PC" style="border-radius:8px; height:150px; object-fit:cover;">
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="/tablettes" class="nav-link">Tablette</a>
+                    <div class="mega-menu">
+                        <div class="mega-menu-column">
+                            <h3>Marques</h3>
+                            <ul>
+                                <li><a href="/tablettes">Apple iPad</a></li>
+                                <li><a href="/tablettes">Samsung Galaxy Tab</a></li>
+                                <li><a href="/tablettes">Lenovo</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-column">
+                            <img src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?q=80&w=300" alt="Promo Tablette" style="border-radius:8px; height:150px; object-fit:cover;">
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="/logiciels" class="nav-link">Clé & Logiciel</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/materiel" class="nav-link">Matériel</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>

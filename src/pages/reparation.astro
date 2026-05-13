@@ -1,0 +1,84 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Services de Réparation | La Brigade Mobile">
+    <main>
+        <section class="container" style="text-align: center; padding: 5rem 0 3rem;">
+            <p style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; color: #888; font-weight: bold; margin-bottom: 1rem;">Catalogue des Réparations</p>
+            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Services Experts</h1>
+            <p style="max-width: 600px; margin: 0 auto; color: #666;">Typologie claire, engagement sur la transparence et garantie 12 mois sur toutes nos interventions à Toulouse.</p>
+        </section>
+
+        <section class="container catalog-section">
+            <div class="catalog-grid">
+                <a href="/reparation-marque?cat=smartphone" class="catalog-item featured">
+                    <div>
+                        <div class="catalog-icon">
+                            <span class="material-symbols-outlined">smartphone</span>
+                        </div>
+                        <h2>Réparation Smartphone</h2>
+                        <p>De l'iPhone à Samsung, nous intervenons sur tous les modèles de smartphones. Écran cassé, batterie fatiguée ou connecteur de charge récalcitrant, nos experts s'occupent de tout en un temps record.</p>
+                    </div>
+                    <span class="catalog-link">Voir les marques <span class="material-symbols-outlined">arrow_forward</span></span>
+                </a>
+
+                <a href="/reparation-marque?cat=ordinateur" class="catalog-item">
+                    <div>
+                        <div class="catalog-icon" style="background: #E3F2FD;">
+                            <span class="material-symbols-outlined" style="color: #1976D2;">laptop</span>
+                        </div>
+                        <h2>Ordinateurs & Mac</h2>
+                        <p>Diagnostic complet pour MacBook et PC Portables. Remplacement clavier, écran ou optimisation système.</p>
+                    </div>
+                    <span class="catalog-link">Détails <span class="material-symbols-outlined">arrow_forward</span></span>
+                </a>
+
+                <a href="/devis" class="catalog-item">
+                    <div>
+                        <div class="catalog-icon" style="background: #F1F8E9;">
+                            <span class="material-symbols-outlined" style="color: #388E3C;">droplets</span>
+                        </div>
+                        <h2>Désoxydation</h2>
+                        <p>Votre appareil a pris l'eau ? N'attendez pas ! Traitement immédiat pour maximiser les chances de survie.</p>
+                    </div>
+                    <span class="catalog-link">Agir vite <span class="material-symbols-outlined">arrow_forward</span></span>
+                </a>
+
+                <a href="/reparation-marque?cat=tablette" class="catalog-item">
+                    <div>
+                        <div class="catalog-icon" style="background: #FFF3E0;">
+                            <span class="material-symbols-outlined" style="color: #F57C00;">tablet_mac</span>
+                        </div>
+                        <h2>Tablettes / iPad</h2>
+                        <p>Vitre tactile brisée ou problème d'affichage sur votre iPad ou Galaxy Tab. Réparation certifiée.</p>
+                    </div>
+                    <span class="catalog-link">Détails <span class="material-symbols-outlined">arrow_forward</span></span>
+                </a>
+
+                <a href="/devis" class="catalog-item">
+                    <div>
+                        <div class="catalog-icon" style="background: #FCE4EC;">
+                            <span class="material-symbols-outlined" style="color: #C2185B;">cable</span>
+                        </div>
+                        <h2>Connectique</h2>
+                        <p>Prise jack, port de charge USB-C ou Lightning. Nous remplaçons les composants défectueux.</p>
+                    </div>
+                    <span class="catalog-link">Infos <span class="material-symbols-outlined">arrow_forward</span></span>
+                </a>
+            </div>
+        </section>
+
+        <section style="background: var(--color-light); padding: 4rem 0;">
+            <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem;">
+                <div>
+                    <h2 style="margin-bottom: 0.5rem;">Un cas particulier ?</h2>
+                    <p style="color: #666;">Notre outil de devis guidé couvre toutes les marques et toutes les pannes.</p>
+                </div>
+                <a href="/devis" class="btn-primary" style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span class="material-symbols-outlined">auto_fix_high</span> Lancer le Devis Guidé
+                </a>
+            </div>
+        </section>
+    </main>
+</Layout>

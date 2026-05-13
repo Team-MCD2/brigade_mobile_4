@@ -1,0 +1,109 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Contact & Devis | La Brigade Mobile">
+    <main class="container">
+        <h1 style="margin-top: 3rem; font-size: 3rem; text-transform: uppercase; text-align: center;" class="fade-in-up">Contactez-nous</h1>
+        <p style="text-align: center; color: #666; max-width: 600px; margin: 0 auto; transition-delay:0.1s;" class="fade-in-up">Une question ? Un besoin de devis ? Notre équipe est à votre disposition pour vous répondre dans les plus brefs délais.</p>
+
+        <section class="contact-container">
+            <div class="contact-form fade-in-up" style="transition-delay:0.2s;">
+                <h2 style="margin-bottom: 2rem;">Envoyez un message</h2>
+                <form id="contact-form">
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+                        <div class="form-group"><label>Nom complet *</label><input type="text" id="contact-form-name" class="form-control" placeholder="Jean Dupont" required></div>
+                        <div class="form-group"><label>Téléphone</label><input type="tel" id="contact-form-phone" class="form-control" placeholder="06 12 34 56 78"></div>
+                    </div>
+                    <div class="form-group"><label>Email *</label><input type="email" id="contact-form-email" class="form-control" placeholder="jean@email.com" required></div>
+                    <div class="form-group">
+                        <label>Sujet</label>
+                        <select id="contact-form-subject" class="form-control">
+                            <option>Demande de Devis Réparation</option>
+                            <option>Information sur un Appareil Reconditionné</option>
+                            <option>Suivi de ma Réparation</option>
+                            <option>Autre demande</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Message *</label><textarea id="contact-form-message" class="form-control" rows="5" placeholder="Comment pouvons-nous vous aider ?" required></textarea></div>
+                    <button type="button" id="contact-send-btn" class="btn-primary" style="width:100%; font-size:1.1rem;"><span class="material-symbols-outlined icon-small">send</span> Envoyer le message</button>
+                </form>
+            </div>
+
+            <div class="fade-in-up" style="transition-delay:0.3s;">
+                <div class="contact-info">
+                    <h2 style="color:var(--color-primary); margin-bottom: 2rem;">Notre Boutique</h2>
+                    <div class="info-item">
+                        <span class="info-icon"><span class="material-symbols-outlined">location_on</span></span>
+                        <div>
+                            <h4 style="margin-bottom:0.25rem;">Adresse de l'atelier</h4>
+                            <p style="color:#ccc;">65 Route de Blagnac<br>31300 Toulouse<br><span style="font-size:0.85rem; color:#aaa;">Accès: L1, Bus 70 - Arrêt "Cité Madrid"</span></p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon"><span class="material-symbols-outlined">call</span></span>
+                        <div>
+                            <h4 style="margin-bottom:0.25rem;">Téléphone</h4>
+                            <p style="color:#ccc;">07 56 91 65 93<br><span style="font-size:0.85rem;">Lun-Ven : 9h-19h | Samedi : 10h-18h</span></p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon"><span class="material-symbols-outlined">mail</span></span>
+                        <div>
+                            <h4 style="margin-bottom:0.25rem;">Email</h4>
+                            <p style="color:#ccc;">contact@reparephone-toulouse.fr</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 100%; height: 300px; margin-top: 2rem; border-radius: var(--radius); overflow: hidden;">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2888.583307409257!2d1.4172464766861595!3d43.61522205490151!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12aebaba79fdbb7b%3A0x286d9a9ba47a16f2!2s65%20Rte%20de%20Blagnac%2C%2031200%20Toulouse!5e0!3m2!1sfr!2sfr!4v1715481234567!5m2!1sfr!2sfr" width="100%" height="100%" style="border:0; border-radius: var(--radius);" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.getElementById('contact-send-btn')?.addEventListener('click', async () => {
+            const btn = document.getElementById('contact-send-btn');
+            const name = (document.getElementById('contact-form-name') as HTMLInputElement)?.value;
+            const email = (document.getElementById('contact-form-email') as HTMLInputElement)?.value;
+            const phone = (document.getElementById('contact-form-phone') as HTMLInputElement)?.value;
+            const subject = (document.getElementById('contact-form-subject') as HTMLSelectElement)?.value;
+            const message = (document.getElementById('contact-form-message') as HTMLTextAreaElement)?.value;
+
+            if (!name || !email || !message) {
+                alert('Veuillez remplir les champs obligatoires (Nom, Email, Message).');
+                return;
+            }
+
+            if (btn) {
+                btn.innerHTML = '<span class="material-symbols-outlined icon-small">hourglass_top</span> Envoi en cours...';
+                (btn as HTMLButtonElement).disabled = true;
+            }
+
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, phone, subject, message })
+                });
+                const result = await response.json();
+
+                if (result.success && btn) {
+                    btn.innerHTML = '<span class="material-symbols-outlined icon-small">check_circle</span> Message envoyé !';
+                    btn.style.background = '#4CAF50';
+                    btn.style.color = 'white';
+                    alert(`Message envoyé avec succès ! Notre équipe vous répondra sous 24h.`);
+                } else {
+                    throw new Error('Erreur serveur');
+                }
+            } catch (err) {
+                alert('Erreur lors de l\'envoi. Veuillez réessayer.');
+                if (btn) {
+                    btn.innerHTML = '<span class="material-symbols-outlined icon-small">send</span> Envoyer le message';
+                    (btn as HTMLButtonElement).disabled = false;
+                }
+            }
+        });
+    </script>
+</Layout>

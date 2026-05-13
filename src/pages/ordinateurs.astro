@@ -1,0 +1,72 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Ordinateurs Reconditionnés | La Brigade Mobile">
+    <main>
+        <section class="hero-slim" style="background-image: url('https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=1920');">
+            <div class="container" style="position:relative; z-index:2;">
+                <h1 style="font-size:3rem; text-transform:uppercase; margin-bottom:0.5rem; color:white;">Ordinateurs Reconditionnés</h1>
+                <p style="color:#f0f0f0;">MacBook, PC portables et iMac vérifiés, testés et garantis 12 mois.</p>
+            </div>
+        </section>
+
+        <section class="container catalog-container">
+            <aside class="sidebar-filters fade-in-up">
+                <div class="filter-group">
+                    <h4>Marque</h4>
+                    <label class="filter-label"><input type="checkbox" name="brand" value="Apple"> Apple</label>
+                    <label class="filter-label"><input type="checkbox" name="brand" value="Dell"> Dell</label>
+                    <label class="filter-label"><input type="checkbox" name="brand" value="HP"> HP</label>
+                    <label class="filter-label"><input type="checkbox" name="brand" value="Lenovo"> Lenovo</label>
+                </div>
+                <div class="filter-group">
+                    <h4>État</h4>
+                    <label class="filter-label"><input type="checkbox" name="etat" value="Comme neuf"> Comme neuf</label>
+                    <label class="filter-label"><input type="checkbox" name="etat" value="Très bon état"> Très bon état</label>
+                    <label class="filter-label"><input type="checkbox" name="etat" value="Bon état"> Bon état</label>
+                </div>
+                <div class="filter-group">
+                    <h4>Prix Max: <span id="price-val">1500€</span></h4>
+                    <input type="range" id="price-filter" min="0" max="3000" value="1500" style="width:100%;">
+                    <div style="display:flex; justify-content:space-between; font-size:0.9rem; color:#666; margin-top:0.5rem;">
+                        <span>0€</span><span>3000€</span>
+                    </div>
+                </div>
+            </aside>
+
+            <div>
+                <div style="margin-bottom:2rem; display:flex; justify-content:space-between; align-items:center;">
+                    <p><strong id="product-count">2</strong> produits affichés</p>
+                    <select id="sort-filter" style="padding:0.5rem; border:1px solid #ddd; border-radius:4px; outline:none;">
+                        <option value="default">Pertinence</option>
+                        <option value="price-asc">Prix croissant</option>
+                        <option value="price-desc">Prix décroissant</option>
+                    </select>
+                </div>
+                <div class="products-grid" id="products-grid">
+                    <div class="product-card fade-in-up visible" data-brand="Apple" data-etat="Bon état" data-cap="" data-price="749">
+                        <span class="badge-etat etat-bon">Bon état</span>
+                        <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=400" alt="MacBook Air M1" class="product-img">
+                        <h3 class="product-title">MacBook Air M1 - 256 Go</h3>
+                        <div class="product-price-wrapper">
+                            <span class="price-old">1199€</span>
+                            <span class="price-new">749€</span>
+                        </div>
+                        <a href="/product?name=MacBook%20Air%20M1&price=749&img=https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=600" class="btn-primary">Détails & Devis</a>
+                    </div>
+                    <div class="product-card fade-in-up visible" data-brand="Dell" data-etat="Très bon état" data-cap="" data-price="499">
+                        <span class="badge-etat etat-tb">Très bon état</span>
+                        <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=400" alt="Dell XPS 13" class="product-img">
+                        <h3 class="product-title">Dell XPS 13 - i7 / 16 Go</h3>
+                        <div class="product-price-wrapper">
+                            <span class="price-old">1099€</span>
+                            <span class="price-new">499€</span>
+                        </div>
+                        <a href="/product?name=Dell%20XPS%2013&price=499&img=https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=600" class="btn-primary">Détails & Devis</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</Layout>

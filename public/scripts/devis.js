@@ -35,35 +35,21 @@ let currentState = {
     pickupFee: 0,
     date: '',
     slot: '',
-    contact: {
-        name: '',
-        email: '',
-        phone: '',
-        address: ''
-    }
+    contact: { name: '', email: '', phone: '', address: '' }
 };
 
 const STEPS_TOTAL = 8;
 const STEP_TITLES = [
-    "",
-    "Type d'appareil",
-    "Marque",
-    "Modèle",
-    "Symptômes & Pannes",
-    "Prise en charge",
-    "Date & Créneau",
-    "Vos coordonnées",
-    "Récapitulatif"
+    "", "Type d'appareil", "Marque", "Modèle",
+    "Symptômes & Pannes", "Prise en charge", "Date & Créneau",
+    "Vos coordonnées", "Récapitulatif"
 ];
 
-// INITIALIZATION
 document.addEventListener('DOMContentLoaded', () => {
-    // Show step 1 by default
     const step1 = document.getElementById('step-1');
     if (step1) step1.classList.add('active');
     initSlots();
     updateProgress();
-    updateCopyright();
     handleUrlParams();
 });
 
@@ -72,7 +58,6 @@ function handleUrlParams() {
     const model = params.get('model');
     if (model) {
         currentState.model = model;
-        // Try to guess brand and category
         if (model.toLowerCase().includes('iphone') || model.toLowerCase().includes('ipad')) {
             currentState.brand = 'Apple';
             currentState.category = model.toLowerCase().includes('ipad') ? 'tablette' : 'smartphone';
@@ -89,8 +74,6 @@ function handleUrlParams() {
             currentState.brand = 'Autre';
             currentState.category = 'smartphone';
         }
-        
-        // Hide ALL steps, show step 4
         for (let i = 1; i <= STEPS_TOTAL; i++) {
             const el = document.getElementById(`step-${i}`);
             if (el) { el.classList.remove('active'); el.classList.add('hidden'); }
@@ -100,14 +83,6 @@ function handleUrlParams() {
         step4.classList.remove('hidden');
         step4.classList.add('active');
         updateProgress();
-    }
-}
-
-function updateCopyright() {
-    const footerP = document.querySelector('.footer-bottom p');
-    if (footerP) {
-        const year = new Date().getFullYear();
-        footerP.innerText = `© ${year} La Brigade Mobile par ReparePhone Toulouse — Tous droits réservés`;
     }
 }
 
@@ -125,7 +100,6 @@ function initSlots() {
     });
 }
 
-// NAVIGATION
 function nextStep() {
     if (!validateStep()) return;
     if (currentState.step < STEPS_TOTAL) {
@@ -165,28 +139,16 @@ function updateProgress() {
 }
 
 function validateStep() {
-    if (currentState.step === 1 && !currentState.category) {
-        alert('Veuillez sélectionner un type d\'appareil.');
-        return false;
-    }
-    if (currentState.step === 2 && !currentState.brand) {
-        alert('Veuillez sélectionner une marque.');
-        return false;
-    }
+    if (currentState.step === 1 && !currentState.category) { alert('Veuillez sélectionner un type d\'appareil.'); return false; }
+    if (currentState.step === 2 && !currentState.brand) { alert('Veuillez sélectionner une marque.'); return false; }
     if (currentState.step === 3) {
         const custom = document.getElementById('model-custom').value;
         if (custom) currentState.model = custom;
-        if (!currentState.model) {
-            alert('Veuillez sélectionner ou saisir un modèle.');
-            return false;
-        }
+        if (!currentState.model) { alert('Veuillez sélectionner ou saisir un modèle.'); return false; }
     }
     if (currentState.step === 4) {
         const checked = document.querySelectorAll('input[name="repair"]:checked');
-        if (checked.length === 0) {
-            alert('Veuillez sélectionner au moins une panne.');
-            return false;
-        }
+        if (checked.length === 0) { alert('Veuillez sélectionner au moins une panne.'); return false; }
         currentState.repairs = Array.from(checked).map(c => ({
             label: c.parentElement.querySelector('strong').innerText,
             price: parseInt(c.getAttribute('data-price'))
@@ -194,31 +156,23 @@ function validateStep() {
     }
     if (currentState.step === 6) {
         currentState.date = document.getElementById('appointment-date').value;
-        if (!currentState.date || !currentState.slot) {
-            alert('Veuillez choisir une date et un créneau.');
-            return false;
-        }
+        if (!currentState.date || !currentState.slot) { alert('Veuillez choisir une date et un créneau.'); return false; }
     }
     if (currentState.step === 7) {
         currentState.contact.name = document.getElementById('contact-name').value;
         currentState.contact.email = document.getElementById('contact-email').value;
         currentState.contact.phone = document.getElementById('contact-phone').value;
         currentState.contact.address = document.getElementById('contact-address').value;
-        if (!currentState.contact.name || !currentState.contact.email || !currentState.contact.phone) {
-            alert('Veuillez remplir les informations de contact.');
-            return false;
-        }
+        if (!currentState.contact.name || !currentState.contact.email || !currentState.contact.phone) { alert('Veuillez remplir les informations de contact.'); return false; }
     }
     return true;
 }
 
-// SELECTION LOGIC
 function selectCategory(cat) {
     currentState.category = cat;
     const brandGrid = document.getElementById('brand-grid');
     if (!brandGrid) return;
     brandGrid.innerHTML = '';
-    
     const brands = DATA.categories[cat].brands;
     brands.forEach(b => {
         const btn = document.createElement('button');
@@ -227,7 +181,6 @@ function selectCategory(cat) {
         btn.onclick = () => selectBrand(b);
         brandGrid.appendChild(btn);
     });
-    
     nextStep();
 }
 
@@ -236,7 +189,6 @@ function selectBrand(brand) {
     const modelGrid = document.getElementById('model-grid');
     if (!modelGrid) return;
     modelGrid.innerHTML = '';
-    
     const models = DATA.brands[brand] || ["Autre / Non listé"];
     models.forEach(m => {
         const btn = document.createElement('button');
@@ -246,27 +198,22 @@ function selectBrand(brand) {
             document.querySelectorAll('#model-grid .wizard-option').forEach(x => x.classList.remove('active'));
             btn.classList.add('active');
             currentState.model = m;
-            // Auto next for models too
             setTimeout(() => nextStep(), 300);
         };
         modelGrid.appendChild(btn);
     });
-    
     nextStep();
 }
 
 function selectPickup(mode, fee) {
     currentState.pickup = mode;
     currentState.pickupFee = fee;
-    
-    // Highlight UI
     document.querySelectorAll('#step-5 .wizard-option').forEach((opt, idx) => {
         opt.classList.remove('active');
         if ((mode === 'boutique' && idx === 0) || (mode === 'domicile' && idx === 1) || (mode === 'postal' && idx === 2)) {
             opt.classList.add('active');
         }
     });
-    
     setTimeout(() => nextStep(), 300);
 }
 
@@ -276,12 +223,10 @@ function selectSlot(slot, btn) {
     btn.classList.add('active');
 }
 
-// SUMMARY
 function renderSummary() {
     const total = currentState.repairs.reduce((acc, curr) => acc + curr.price, 0) + currentState.pickupFee;
     const totalEl = document.getElementById('recap-total');
     if (totalEl) totalEl.innerText = `${total} €`;
-    
     const details = document.getElementById('recap-details');
     if (!details) return;
     details.innerHTML = `
@@ -298,35 +243,36 @@ function renderSummary() {
     `;
 }
 
-function confirmQuote(btn) {
-    if (currentState.repairs.length === 0) {
-        alert("Veuillez sélectionner au moins une panne.");
-        return;
-    }
-    
+async function confirmQuote(btn) {
+    if (currentState.repairs.length === 0) { alert("Veuillez sélectionner au moins une panne."); return; }
     btn.innerHTML = "Envoi en cours...";
     btn.disabled = true;
 
-    const summary = `
-    DEMANDE DE DEVIS REÇUE !
-    -------------------------
-    Modèle : ${currentState.model}
-    Catégorie : ${currentState.category}
-    Marque : ${currentState.brand}
-    Pannes : ${currentState.repairs.map(r => r.label).join(', ')}
-    
-    Un expert de La Brigade Mobile vous contactera sous 2h.
-    `;
+    try {
+        const response = await fetch('/api/devis', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(currentState)
+        });
+        const result = await response.json();
 
-    setTimeout(() => {
-        alert(summary);
-        document.getElementById('step-8').classList.remove('active');
-        document.getElementById('step-8').classList.add('hidden');
-        const success = document.getElementById('step-success');
-        success.classList.remove('hidden');
-        success.classList.add('active');
-        document.getElementById('step-indicator').innerText = "Demande confirmée";
-        const progressFill = document.getElementById('progress-fill');
-        if (progressFill) progressFill.style.width = "100%";
-    }, 1500);
+        if (result.success) {
+            document.getElementById('step-8').classList.remove('active');
+            document.getElementById('step-8').classList.add('hidden');
+            const success = document.getElementById('step-success');
+            success.classList.remove('hidden');
+            success.classList.add('active');
+            document.getElementById('step-indicator').innerText = "Demande confirmée";
+            const progressFill = document.getElementById('progress-fill');
+            if (progressFill) progressFill.style.width = "100%";
+        } else {
+            alert("Erreur lors de l'envoi. Veuillez réessayer.");
+            btn.innerHTML = "Confirmer ma demande";
+            btn.disabled = false;
+        }
+    } catch (err) {
+        alert("Erreur réseau. Veuillez réessayer.");
+        btn.innerHTML = "Confirmer ma demande";
+        btn.disabled = false;
+    }
 }

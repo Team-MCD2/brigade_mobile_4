@@ -1,0 +1,70 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Matériel Informatique | La Brigade Mobile">
+    <main>
+        <section class="hero-slim" style="background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1920');">
+            <div class="container" style="position:relative; z-index:2;">
+                <h1 style="font-size:3rem; text-transform:uppercase; margin-bottom:0.5rem; color:white;">Matériel Informatique</h1>
+                <p style="color:#f0f0f0;">Accessoires, câbles, chargeurs et composants de qualité.</p>
+            </div>
+        </section>
+
+        <section class="container catalog-container">
+            <aside class="sidebar-filters fade-in-up">
+                <div class="filter-group">
+                    <h4>Catégorie</h4>
+                    <label class="filter-label"><input type="checkbox" name="brand" value="Chargeur"> Chargeurs</label>
+                    <label class="filter-label"><input type="checkbox" name="brand" value="Cable"> Câbles</label>
+                    <label class="filter-label"><input type="checkbox" name="brand" value="Coque"> Coques & Protection</label>
+                    <label class="filter-label"><input type="checkbox" name="brand" value="Ecouteur"> Écouteurs</label>
+                </div>
+                <div class="filter-group">
+                    <h4>Prix Max: <span id="price-val">100€</span></h4>
+                    <input type="range" id="price-filter" min="0" max="200" value="100" style="width:100%;">
+                    <div style="display:flex; justify-content:space-between; font-size:0.9rem; color:#666; margin-top:0.5rem;">
+                        <span>0€</span><span>200€</span>
+                    </div>
+                </div>
+            </aside>
+
+            <div>
+                <div style="margin-bottom:2rem; display:flex; justify-content:space-between; align-items:center;">
+                    <p><strong id="product-count">3</strong> produits affichés</p>
+                    <select id="sort-filter" style="padding:0.5rem; border:1px solid #ddd; border-radius:4px; outline:none;">
+                        <option value="default">Pertinence</option>
+                        <option value="price-asc">Prix croissant</option>
+                        <option value="price-desc">Prix décroissant</option>
+                    </select>
+                </div>
+                <div class="products-grid" id="products-grid">
+                    <div class="product-card fade-in-up visible" data-brand="Chargeur" data-etat="" data-cap="" data-price="29">
+                        <img src="https://images.unsplash.com/photo-1583863788434-e58a36330cf0?q=80&w=400" alt="Chargeur USB-C" class="product-img">
+                        <h3 class="product-title">Chargeur Rapide USB-C 65W</h3>
+                        <div class="product-price-wrapper">
+                            <span class="price-new">29€</span>
+                        </div>
+                        <a href="/contact" class="btn-primary">Commander</a>
+                    </div>
+                    <div class="product-card fade-in-up visible" data-brand="Cable" data-etat="" data-cap="" data-price="15">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?q=80&w=400" alt="Câble Lightning" class="product-img">
+                        <h3 class="product-title">Câble Lightning MFi - 2m</h3>
+                        <div class="product-price-wrapper">
+                            <span class="price-new">15€</span>
+                        </div>
+                        <a href="/contact" class="btn-primary">Commander</a>
+                    </div>
+                    <div class="product-card fade-in-up visible" data-brand="Coque" data-etat="" data-cap="" data-price="19">
+                        <img src="https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?q=80&w=400" alt="Coque iPhone" class="product-img">
+                        <h3 class="product-title">Coque Silicone iPhone 13/14</h3>
+                        <div class="product-price-wrapper">
+                            <span class="price-new">19€</span>
+                        </div>
+                        <a href="/contact" class="btn-primary">Commander</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</Layout>

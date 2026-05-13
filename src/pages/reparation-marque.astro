@@ -1,0 +1,96 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Réparation par Marque | La Brigade Mobile">
+    <main class="container" style="padding: 4rem 0;">
+        <nav class="brand-nav">
+            <a href="/">Accueil</a> / <a href="/reparation">Réparations</a> / <span id="breadcrumb-current">Catégorie</span>
+        </nav>
+
+        <h1 id="brand-title" style="font-size: 3rem; margin: 1rem 0;">Réparation Appareil</h1>
+        <p id="brand-desc" style="color: #666; max-width: 700px; margin-bottom: 3rem;">
+            Choisissez votre marque pour découvrir nos tarifs de réparation à Toulouse. Garantie 12 mois incluse.
+        </p>
+
+        <div id="brand-selection">
+            <h2 style="margin-bottom: 1.5rem;">Sélectionnez une marque</h2>
+            <div class="brand-grid" id="brand-grid"></div>
+        </div>
+
+        <div id="model-selection" class="hidden">
+            <h2 style="margin-bottom: 1.5rem;">Sélectionnez votre modèle <span id="current-brand-name" style="color: var(--color-primary);"></span></h2>
+            <div class="brand-grid" id="model-grid"></div>
+            <div style="margin-top: 3rem; text-align: center; background: var(--color-light); padding: 2rem; border-radius: 12px;">
+                <p style="margin-bottom: 1rem;">Votre modèle n'est pas listé ? Aucun problème, nous traitons tous les cas.</p>
+                <a href="/devis" class="btn-primary">Lancer le devis guidé</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const DATA: Record<string, { title: string; brands: string[] }> = {
+            smartphone: {
+                title: "Réparation Smartphone",
+                brands: ["Apple iPhone", "Samsung", "Xiaomi", "Huawei", "Google Pixel", "Oppo"]
+            },
+            ordinateur: {
+                title: "Réparation Ordinateur",
+                brands: ["MacBook", "iMac", "PC Portable Dell", "HP", "Lenovo", "Asus"]
+            },
+            tablette: {
+                title: "Réparation Tablette",
+                brands: ["iPad", "iPad Air", "iPad Pro", "Samsung Galaxy Tab", "Surface"]
+            }
+        };
+
+        const MODELS: Record<string, string[]> = {
+            "Apple iPhone": ["iPhone 15 Pro", "iPhone 15", "iPhone 14", "iPhone 13", "iPhone 12", "iPhone 11", "iPhone XR", "iPhone X", "iPhone 8"],
+            "Samsung": ["S23 Ultra", "S22", "S21 FE", "S20", "Note 20", "A54", "A53"],
+            "MacBook": ["MacBook Pro M3", "MacBook Air M2", "MacBook Pro 16", "MacBook Pro 13", "MacBook Air 13 Retina"]
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const cat = params.get('cat') || 'smartphone';
+            const data = DATA[cat];
+
+            if (data) {
+                document.getElementById('brand-title')!.innerText = data.title + " à Toulouse";
+                document.getElementById('breadcrumb-current')!.innerText = data.title;
+                
+                const grid = document.getElementById('brand-grid')!;
+                data.brands.forEach(b => {
+                    const card = document.createElement('a');
+                    card.href = '#';
+                    card.className = 'brand-card';
+                    card.innerText = b;
+                    card.onclick = (e) => {
+                        e.preventDefault();
+                        showModels(b);
+                    };
+                    grid.appendChild(card);
+                });
+            }
+        });
+
+        function showModels(brand: string) {
+            document.getElementById('brand-selection')!.classList.add('hidden');
+            document.getElementById('model-selection')!.classList.remove('hidden');
+            document.getElementById('current-brand-name')!.innerText = brand;
+            
+            const grid = document.getElementById('model-grid')!;
+            grid.innerHTML = '';
+            
+            const models = MODELS[brand] || ["Modèles récents", "Modèles anciens"];
+            models.forEach(m => {
+                const card = document.createElement('a');
+                card.href = '/devis?model=' + encodeURIComponent(brand + ' ' + m);
+                card.className = 'brand-card';
+                card.innerHTML = m + '<br><span style="font-size:0.7rem; font-weight:normal; color:#888;">Voir tarifs</span>';
+                grid.appendChild(card);
+            });
+            window.scrollTo(0, 300);
+        }
+    </script>
+</Layout>

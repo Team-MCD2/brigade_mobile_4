@@ -1,0 +1,173 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Devis en ligne | La Brigade Mobile">
+    <main class="devis-container">
+        <div class="progress-container">
+            <p id="step-indicator" style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; color: #888;">Étape 1 / 8 — Type d'appareil</p>
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill" style="width: 12.5%;"></div>
+            </div>
+        </div>
+
+        <div id="wizard-steps">
+            <!-- STEP 1: CATEGORY -->
+            <div class="step-content" id="step-1">
+                <h1 class="step-title">1. Type d'appareil</h1>
+                <p class="step-desc">Choisissez la catégorie de votre appareil à réparer.</p>
+                <div class="wizard-grid">
+                    <button class="wizard-option" onclick="selectCategory('smartphone')">
+                        <h3>Smartphone</h3>
+                        <p>iPhone, Samsung, Xiaomi, Huawei...</p>
+                    </button>
+                    <button class="wizard-option" onclick="selectCategory('tablette')">
+                        <h3>Tablette</h3>
+                        <p>iPad, Galaxy Tab, Surface...</p>
+                    </button>
+                    <button class="wizard-option" onclick="selectCategory('ordinateur')">
+                        <h3>Ordinateur</h3>
+                        <p>MacBook, PC Portable, iMac...</p>
+                    </button>
+                    <button class="wizard-option" onclick="selectCategory('console')">
+                        <h3>Console</h3>
+                        <p>Switch, PS5, Xbox...</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 2: BRAND -->
+            <div class="step-content hidden" id="step-2">
+                <h1 class="step-title">2. Marque</h1>
+                <p class="step-desc">Quelle est la marque de votre appareil ?</p>
+                <div class="wizard-grid" id="brand-grid"></div>
+                <div class="wizard-footer">
+                    <button class="btn-secondary" onclick="prevStep()">Retour</button>
+                </div>
+            </div>
+
+            <!-- STEP 3: MODEL -->
+            <div class="step-content hidden" id="step-3">
+                <h1 class="step-title">3. Modèle</h1>
+                <p class="step-desc">Sélectionnez votre modèle ou saisissez-le.</p>
+                <div class="wizard-grid" id="model-grid"></div>
+                <div style="margin-top: 1rem;">
+                    <input type="text" id="model-custom" class="form-control" placeholder="Autre modèle (ex: iPhone 15 Pro Max)" style="width: 100%; padding: 1rem; border: 1px solid #ddd; border-radius: 8px;">
+                </div>
+                <div class="wizard-footer">
+                    <button class="btn-secondary" onclick="prevStep()">Retour</button>
+                    <button class="btn-primary" onclick="nextStep()">Continuer</button>
+                </div>
+            </div>
+
+            <!-- STEP 4: SYMPTOMS -->
+            <div class="step-content hidden" id="step-4">
+                <h1 class="step-title">4. Symptômes & Pannes</h1>
+                <p class="step-desc">Que se passe-t-il avec votre appareil ?</p>
+                <div class="symptom-grid">
+                    <label class="symptom-item">
+                        <input type="checkbox" name="repair" value="ecran" data-price="89">
+                        <span><strong>Écran / Affichage</strong><p style="font-size: 0.8rem; color: #666;">Vitre cassée, tactile HS, lignes sur l'écran...</p></span>
+                    </label>
+                    <label class="symptom-item">
+                        <input type="checkbox" name="repair" value="batterie" data-price="49">
+                        <span><strong>Batterie</strong><p style="font-size: 0.8rem; color: #666;">Décharge rapide, l'appareil s'éteint tout seul...</p></span>
+                    </label>
+                    <label class="symptom-item">
+                        <input type="checkbox" name="repair" value="connecteur" data-price="59">
+                        <span><strong>Connecteur de charge</strong><p style="font-size: 0.8rem; color: #666;">Difficulté à charger, faux contact...</p></span>
+                    </label>
+                    <label class="symptom-item">
+                        <input type="checkbox" name="repair" value="eau" data-price="79">
+                        <span><strong>Désoxydation</strong><p style="font-size: 0.8rem; color: #666;">Tombé dans l'eau ou liquide renversé...</p></span>
+                    </label>
+                </div>
+                <div class="wizard-footer">
+                    <button class="btn-secondary" onclick="prevStep()">Retour</button>
+                    <button class="btn-primary" onclick="nextStep()">Continuer</button>
+                </div>
+            </div>
+
+            <!-- STEP 5: PICKUP -->
+            <div class="step-content hidden" id="step-5">
+                <h1 class="step-title">5. Mode de prise en charge</h1>
+                <p class="step-desc">Comment souhaitez-vous nous confier votre appareil ?</p>
+                <div class="wizard-grid">
+                    <button class="wizard-option" onclick="selectPickup('boutique', 0)">
+                        <h3>En Boutique</h3>
+                        <p>Gratuit — Réparation en 30 min sur place.</p>
+                    </button>
+                    <button class="wizard-option" onclick="selectPickup('domicile', 15)">
+                        <h3>À Domicile / Bureau</h3>
+                        <p>+15€ — On vient chercher et on ramène l'appareil.</p>
+                    </button>
+                    <button class="wizard-option" onclick="selectPickup('postal', 10)">
+                        <h3>Par Voie Postale</h3>
+                        <p>+10€ — Étiquette prépayée fournie.</p>
+                    </button>
+                </div>
+                <div class="wizard-footer">
+                    <button class="btn-secondary" onclick="prevStep()">Retour</button>
+                </div>
+            </div>
+
+            <!-- STEP 6: DATE -->
+            <div class="step-content hidden" id="step-6">
+                <h1 class="step-title">6. Date & Créneau</h1>
+                <p class="step-desc">Choisissez le moment qui vous convient.</p>
+                <div style="margin-bottom: 2rem;">
+                    <input type="date" id="appointment-date" class="form-control" style="width: 100%; padding: 1rem; border: 1px solid #ddd; border-radius: 8px;">
+                </div>
+                <div class="slot-grid" id="slot-grid"></div>
+                <div class="wizard-footer">
+                    <button class="btn-secondary" onclick="prevStep()">Retour</button>
+                    <button class="btn-primary" onclick="nextStep()">Continuer</button>
+                </div>
+            </div>
+
+            <!-- STEP 7: CONTACT -->
+            <div class="step-content hidden" id="step-7">
+                <h1 class="step-title">7. Vos coordonnées</h1>
+                <p class="step-desc">Où pouvons-nous vous recontacter ?</p>
+                <div style="display: grid; gap: 1rem;">
+                    <input type="text" id="contact-name" placeholder="Nom complet" style="width: 100%; padding: 1rem; border: 1px solid #ddd; border-radius: 8px;">
+                    <input type="email" id="contact-email" placeholder="Email" style="width: 100%; padding: 1rem; border: 1px solid #ddd; border-radius: 8px;">
+                    <input type="tel" id="contact-phone" placeholder="Téléphone" style="width: 100%; padding: 1rem; border: 1px solid #ddd; border-radius: 8px;">
+                    <textarea id="contact-address" placeholder="Adresse (si domicile ou postal)" style="width: 100%; padding: 1rem; border: 1px solid #ddd; border-radius: 8px;"></textarea>
+                </div>
+                <div class="wizard-footer">
+                    <button class="btn-secondary" onclick="prevStep()">Retour</button>
+                    <button class="btn-primary" onclick="nextStep()">Voir le récapitulatif</button>
+                </div>
+            </div>
+
+            <!-- STEP 8: SUMMARY -->
+            <div class="step-content hidden" id="step-8">
+                <h1 class="step-title">8. Récapitulatif</h1>
+                <p class="step-desc">Vérifiez les détails avant de confirmer.</p>
+                <div class="recap-card">
+                    <p style="text-transform: uppercase; font-size: 0.75rem; font-weight: bold; color: #888;">Estimation indicative TTC</p>
+                    <div id="recap-total" class="recap-price">0 €</div>
+                    <p style="font-size: 0.85rem; color: #666;">Pièces + Main d'œuvre incluses.</p>
+                </div>
+                <div id="recap-details" style="font-size: 0.95rem; line-height: 1.6; color: #444;"></div>
+                <div class="wizard-footer">
+                    <button class="btn-secondary" onclick="prevStep()">Modifier</button>
+                    <button class="btn-primary" onclick="confirmQuote(this)" style="background: var(--color-success); color: white;">Confirmer ma demande</button>
+                </div>
+            </div>
+
+            <!-- SUCCESS PAGE -->
+            <div class="step-content hidden" id="step-success">
+                <div style="text-align: center; padding: 4rem 0;">
+                    <span class="material-symbols-outlined" style="font-size: 5rem; color: var(--color-success); margin-bottom: 1rem;">check_circle</span>
+                    <h1 class="step-title">Demande Envoyée !</h1>
+                    <p style="margin-bottom: 2rem;">Votre demande de devis a été enregistrée. Un expert vous recontactera dans les plus brefs délais.</p>
+                    <a href="/" class="btn-primary">Retour à l'accueil</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/scripts/devis.js" is:inline></script>
+</Layout>
