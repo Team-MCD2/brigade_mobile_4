@@ -1,9 +1,4 @@
 {
-  "functions": {
-    "**/*": {
-      "runtime": "nodejs20.x"
-    }
-  },
   "redirects": [
     { "source": "/:path*.html", "destination": "/:path*", "permanent": true }
   ]
