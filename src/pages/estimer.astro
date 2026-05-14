@@ -1,0 +1,167 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import EstimationWizard from '../components/EstimationWizard';
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estimer mon téléphone | La Brigade Mobile</title>
+  <style>
+    body {
+      background-color: #f5f5f7 !important;
+      color: #1d1d1f !important;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif !important;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif !important;
+      letter-spacing: normal !important;
+      text-transform: none !important;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .anim-1 { animation: fadeUp 0.55s ease both 0.05s; }
+    .anim-2 { animation: fadeUp 0.55s ease both 0.15s; }
+    .anim-3 { animation: fadeUp 0.6s  ease both 0.28s; }
+    .anim-4 { animation: fadeUp 0.6s  ease both 0.35s; }
+
+    /* ── Hero ── */
+    .estimer-hero {
+      text-align: center;
+      padding: 4.5rem 2rem 2.5rem;
+    }
+    .estimer-hero h1 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #1d1d1f;
+      margin-bottom: 0.9rem;
+    }
+    .estimer-hero p {
+      font-size: 1.05rem;
+      color: #6e6e73;
+      max-width: 34rem;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    /* ── Section label ── */
+    .estimer-label {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #1d1d1f;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── Grid ── */
+    .estimer-section {
+      padding: 2rem 5% 5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .phones-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+    @media (max-width: 900px)  { .phones-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px)  { .phones-grid { grid-template-columns: 1fr; } }
+
+    /* ── Card ── */
+    .phone-card {
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+      background: #fff;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+    .phone-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.13);
+    }
+    .phone-card-img {
+      height: 220px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 1.25rem 1.25rem 0;
+      overflow: hidden;
+    }
+
+    /* Fond de carte découpé depuis phones-cards.png */
+    .phone-card-img {
+      background-image: url('/phones-cards.png');
+      background-size: 400% auto;
+      background-repeat: no-repeat;
+      transition: background-position 0s, transform 0.3s ease;
+    }
+    .card-iphone  { background-color: #e8e8ed; background-position:   0%   40%; }
+    .card-samsung { background-color: #2a2a2a; background-position:  33.33% 40%; }
+    .card-pixel   { background-color: #f0ede6; background-position:  66.66% 40%; }
+    .card-autre   { background-color: #e8e6f0; background-position: 100%   40%; }
+
+    .phone-card:hover .phone-card-img {
+      transform: scale(1.02);
+    }
+
+    .phone-card-info {
+      background: #ffffff;
+      padding: 1rem 1.25rem 1.25rem;
+      border-top: 1px solid rgba(0,0,0,0.05);
+    }
+    .phone-card-info h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1d1d1f;
+      margin-bottom: 0.25rem;
+    }
+    .phone-card-info p {
+      font-size: 0.8rem;
+      color: #6e6e73;
+      line-height: 1.5;
+    }
+    .card-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 2rem;
+      margin-top: 0.5rem;
+      background: #fff4ec;
+      color: #c94f00;
+    }
+  </style>
+</head>
+<body>
+
+  <Header />
+
+  <main>
+
+    <!-- Hero -->
+    <section class="estimer-hero">
+      <h1 class="anim-1">Estimez votre téléphone</h1>
+      <p class="anim-2">Qu'il soit en parfait état ou HS, obtenez une offre immédiate.<br />Paiement le jour même, en boutique à Toulouse.</p>
+    </section>
+
+    <!-- Sélection -->
+    <section class="estimer-section">
+      <p class="estimer-label anim-3">Quel appareil souhaitez-vous revendre ?</p>
+      <EstimationWizard client:load />
+    </section>
+
+  </main>
+
+  <Footer />
+
+</body>
+</html>
