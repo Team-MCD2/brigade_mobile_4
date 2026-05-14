@@ -25,6 +25,12 @@
   --db-transition: 0.2s cubic-bezier(0.4,0,0.2,1);
 }
 
+.desktop-only { display: block; }
+@media (max-width: 768px) {
+  .desktop-only { display: none !important; }
+  .mobile-compact { padding: 0 0.5rem !important; min-width: 34px !important; justify-content: center !important; }
+}
+
 html, body { height: 100%; background: var(--db-bg); color: var(--db-text); font-family: var(--db-font); }
 
 /* ─── LAYOUT ─────────────────────────────────────────────── */
@@ -116,7 +122,7 @@ html, body { height: 100%; background: var(--db-bg); color: var(--db-text); font
   background: var(--db-bg); flex-shrink: 0;
 }
 .db-topbar-row1 { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 0.85rem; }
-.db-page-title { font-size: 1.35rem; font-weight: 700; color: var(--db-text); letter-spacing: -0.025em; }
+.db-page-title { font-size: 1.35rem; font-weight: 700; color: var(--db-text); letter-spacing: -0.025em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
 .db-page-sub { font-size: 0.75rem; color: var(--db-text3); margin-top: 0.2rem; }
 .db-topbar-actions { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
 
@@ -488,19 +494,82 @@ html, body { height: 100%; background: var(--db-bg); color: var(--db-text); font
 @media (max-width: 1200px) {
   .db-client-col { display: none; }
 }
+
 @media (max-width: 900px) {
-  :root { --db-sidebar: 56px; --db-list: 260px; }
-  .db-logo-text, .db-nav-item span, .db-nav-badge, .db-sidebar-stats,
+  :root { --db-sidebar: 64px; --db-list: 280px; }
+  .db-logo-text, .db-nav-item span:not(.db-nav-icon), .db-nav-badge, .db-sidebar-stats,
   .db-sidebar-profile .db-profile-name, .db-sidebar-profile .db-profile-role,
   .db-logout span { display: none; }
-  .db-nav-item { justify-content: center; padding: 0.65rem; }
-  .db-nav-icon { width: 18px; height: 18px; }
-  .db-sidebar-profile { justify-content: center; }
+  .db-nav-item { justify-content: center; padding: 0.8rem; }
+  .db-nav-icon { width: 20px; height: 20px; opacity: 0.8; }
+  .db-sidebar-profile { justify-content: center; border-top: 1px solid var(--db-border); }
 }
-@media (max-width: 640px) {
-  .db-root { flex-direction: column; height: auto; }
-  .db-sidebar { width: 100%; min-width: unset; height: auto; flex-direction: row; border-right: none; border-bottom: 1px solid var(--db-border); }
-  .db-detail-col { min-height: 80vh; }
-  :root { --db-list: 100%; }
-  .db-list-col { width: 100%; min-width: unset; border-right: none; }
+
+@media (max-width: 768px) {
+  .db-root { flex-direction: column; height: 100vh; height: 100dvh; }
+  
+  .db-sidebar {
+    order: 2;
+    width: 100%; min-width: 100%; height: 60px;
+    flex-direction: row; border-right: none; border-top: 1px solid var(--db-border);
+    background: var(--db-surface);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .db-sidebar-logo, .db-sidebar-stats, .db-sidebar-profile, .db-logout { display: none; }
+  
+  .db-nav {
+    display: flex; flex-direction: row; align-items: center; justify-content: space-around;
+    padding: 0; overflow: visible;
+  }
+  
+  .db-nav-item {
+    flex: 1; height: 60px; border-radius: 0;
+    flex-direction: column; gap: 4px; padding: 10px 0;
+  }
+  
+  .db-nav-item span:not(.db-nav-icon) { 
+    display: block !important; font-size: 10px; font-weight: 600;
+  }
+  
+  .db-nav-item.active::before {
+    width: 100%; height: 3px; top: 0; left: 0; bottom: unset;
+    border-radius: 0 0 3px 3px;
+  }
+  
+  .db-main { order: 1; height: calc(100vh - 60px); height: calc(100dvh - 60px); }
+  
+  .db-topbar { padding: 0.75rem 1rem; }
+  .db-page-title { font-size: 1.1rem; }
+  .db-search { display: none; } /* Hide search on mobile topbar for space */
+  
+  .db-content { flex-direction: column; }
+  
+  .db-list-col { 
+    width: 100%; min-width: 100%; border-right: none; 
+    flex: 1;
+  }
+  
+  .db-detail-col {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 60px;
+    background: var(--db-bg); z-index: 50;
+    transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .db-detail-col.mobile-visible { transform: translateX(0); }
+  
+  .db-detail-topbar { height: 56px; padding: 0 1rem; }
+  
+  .db-hero { flex-direction: column; gap: 1.5rem; padding: 1.5rem 1rem; }
+  .db-hero-visual { width: 100%; }
+  .db-hero-img-wrap { width: 100%; height: 300px; }
+  .db-hero-info { width: 100%; padding-top: 0; }
+  .db-estimation-price { font-size: 2.5rem; }
+  
+  .db-section { padding: 0 1rem 1.5rem; }
+  .db-cond-grid { grid-template-columns: 1fr; }
+  
+  .db-action-bar { padding: 0.75rem 1rem; }
+  .db-action-btn { padding: 0.6rem 0.75rem; font-size: 0.75rem; }
 }
+

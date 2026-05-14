@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { brands, calculateOffer, BRIGADE_MARGIN, MIN_OFFER } from '../data/phonePricing';
+import { DB } from './dashboard/db';
 
-type Step = 'brands' | 'models' | 'storage' | 'custom' | 'screen' | 'body' | 'result' | 'contact' | 'success';
+
+type Step = 'brands' | 'models' | 'storage' | 'custom' | 'screen' | 'body' | 'photos' | 'result' | 'contact' | 'success';
+
 
 
 /* ── Custom phone pricing ─────────────────────────────────── */
@@ -213,8 +216,8 @@ export default function EstimationWizard() {
   const storageOpt = model?.storages.find(st => st.capacity === storage);
 
   const currentKeys: Step[] = isCustom
-    ? ['brands', 'custom', 'screen', 'body', 'result', 'contact']
-    : ['brands', 'models', 'storage', 'screen', 'body', 'result', 'contact'];
+    ? ['brands', 'custom', 'screen', 'body', 'photos', 'result', 'contact']
+    : ['brands', 'models', 'storage', 'screen', 'body', 'photos', 'result', 'contact'];
 
   const stepIdx = currentKeys.indexOf(step);
 
@@ -226,6 +229,10 @@ export default function EstimationWizard() {
 
   const customValid = !!customBrand.trim() && !!customModel.trim() && !!customYear && !!customRange;
 
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
+  const [photoUrls, setPhotoUrls] = useState<string[]>([]);
+
   const canNext: Record<Step, boolean> = {
     brands:  !!brandId,
     models:  !!modelId,
@@ -233,10 +240,12 @@ export default function EstimationWizard() {
     custom:  customValid,
     screen:  !!screen,
     body:    !!body,
+    photos:  true, // Optional
     result:  true,
     contact: true,
     success: true,
   };
+
 
   const NEXT_STEP: Record<Step, Step> = {
     brands:  isCustom ? 'custom' : 'models',
@@ -244,7 +253,8 @@ export default function EstimationWizard() {
     storage: 'screen',
     custom:  'screen',
     screen:  'body',
-    body:    'result',
+    body:    'photos',
+    photos:  'result',
     result:  'contact',
     contact: 'success',
     success: 'success',
@@ -257,10 +267,12 @@ export default function EstimationWizard() {
     custom:  'brands',
     screen:  isCustom ? 'custom' : 'storage',
     body:    'screen',
-    result:  'body',
+    photos:  'body',
+    result:  'photos',
     contact: 'result',
     success: null,
   };
+
 
 
 
@@ -291,7 +303,9 @@ export default function EstimationWizard() {
     custom:  { title: 'Décrivez votre téléphone', sub: 'Renseignez les informations clés' },
     screen:  { title: 'État de l\'écran',         sub: 'Observez votre écran attentivement' },
     body:    { title: 'État général',             sub: 'Coque, dos et structure' },
+    photos:  { title: 'Photos de l\'appareil',    sub: 'Ajoutez 2 à 3 photos pour valider l\'état' },
     result:  { title: 'Votre estimation',         sub: isCustom ? customSummary : `${brand?.name} · ${model?.name} · ${storage}` },
+
     contact: { title: 'Finaliser ma demande',     sub: 'Laissez vos coordonnées pour bloquer le prix' },
     success: { title: 'Demande envoyée !',        sub: 'Nous vous recontactons très vite' },
   };
@@ -301,6 +315,20 @@ export default function EstimationWizard() {
   });
 
   const handleFinish = async () => {
+    setIsUploading(true);
+    
+    // 1. Upload des photos
+    const urls: string[] = [];
+    try {
+      for (const file of selectedFiles) {
+        const url = await DB.uploadPhoto(file, contactData.email);
+        urls.push(url);
+      }
+    } catch (err) {
+      console.error('Error uploading photos:', err);
+    }
+
+
     // Create request object for dashboard
     const id = Math.random().toString(36).substr(2, 9);
     const now = new Date();
@@ -312,8 +340,8 @@ export default function EstimationWizard() {
       storage: isCustom ? customStorage : (storage ?? ''),
       color: 'Non spécifié',
       brand: isCustom ? 'other' : (brandId as any),
-      imageUrl: '', 
-      thumbnails: [],
+      imageUrl: urls[0] || '', 
+      thumbnails: urls,
       estimatedPrice: offer || 0,
       basePrice: (offer || 0) * 1.2,
       status: 'pending',
@@ -341,7 +369,7 @@ export default function EstimationWizard() {
       }
     };
 
-    // 1. Appel API RÉEL (Resend + DB)
+    // 2. Appel API RÉEL (Resend + DB)
     try {
       await fetch('/api/reprise', {
         method: 'POST',
@@ -352,6 +380,7 @@ export default function EstimationWizard() {
             brand: newReq.brand,
             storage: newReq.storage,
             color: newReq.color,
+            photos: urls
           },
           client: contactData,
           estimatedPrice: newReq.estimatedPrice
@@ -361,7 +390,7 @@ export default function EstimationWizard() {
       console.error('Erreur API:', e);
     }
 
-    // 2. Persistence Locale pour le Dashboard
+    // 3. Persistence Locale pour le Dashboard
     const STORAGE_KEY = 'brigade_dashboard_state';
     const saved = localStorage.getItem(STORAGE_KEY);
     let state = saved ? JSON.parse(saved) : { requests: [], notes: {} };
@@ -369,15 +398,29 @@ export default function EstimationWizard() {
     state.requests = [newReq, ...(state.requests || [])];
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 
+    setIsUploading(false);
     setStep('success');
   };
+
 
 
 
   return (
     <>
       <style>{`
+        .spinner-small {
+          width: 16px;
+          height: 16px;
+          border: 2px solid rgba(255,255,255,0.3);
+          border-radius: 50%;
+          border-top-color: #fff;
+          animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
         .wz-grid-cards {
+
           display: grid;
           grid-template-columns: repeat(4, 1fr);
           gap: 1.25rem;
@@ -727,7 +770,52 @@ export default function EstimationWizard() {
                 </div>
               )}
 
-              {/* STEP: success */}
+              {/* STEP: photos */}
+              {step === 'photos' && (
+                <div style={{ padding: '1rem 0' }}>
+                  <div 
+                    onClick={() => document.getElementById('wizard-file-input')?.click()}
+                    style={{
+                      border: '2px dashed #e5e5e7', borderRadius: '16px', padding: '3rem 2rem',
+                      textAlign: 'center', cursor: 'pointer', transition: '0.2s',
+                      background: '#fafafa'
+                    }}
+                    onMouseOver={e => e.currentTarget.style.borderColor = '#c94f00'}
+                    onMouseOut={e => e.currentTarget.style.borderColor = '#e5e5e7'}
+                  >
+                    <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>📸</div>
+                    <div style={{ fontWeight: 600, color: '#1d1d1f' }}>Cliquez pour ajouter des photos</div>
+                    <div style={{ fontSize: '0.85rem', color: '#86868b', marginTop: '0.5rem' }}>
+                      Face avant, face arrière et côtés.
+                    </div>
+                  </div>
+                  <input 
+                    id="wizard-file-input"
+                    type="file" multiple accept="image/*"
+                    style={{ display: 'none' }}
+                    onChange={e => {
+                      if (e.target.files) {
+                        setSelectedFiles(prev => [...prev, ...Array.from(e.target.files!)]);
+                      }
+                    }}
+                  />
+
+                  {selectedFiles.length > 0 && (
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(80px, 1fr))', gap: '10px', marginTop: '1.5rem' }}>
+                      {selectedFiles.map((f, i) => (
+                        <div key={i} style={{ position: 'relative', aspectRatio: '1', borderRadius: '8px', overflow: 'hidden', border: '1px solid #eee' }}>
+                          <img src={URL.createObjectURL(f)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          <button 
+                            onClick={() => setSelectedFiles(prev => prev.filter((_, idx) => idx !== i))}
+                            style={{ position: 'absolute', top: 2, right: 2, background: 'rgba(0,0,0,0.5)', color: '#fff', border: 'none', borderRadius: '50%', width: '18px', height: '18px', fontSize: '10px', cursor: 'pointer' }}
+                          >✕</button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
               {step === 'success' && (
                 <div style={{ textAlign: 'center', padding: '2rem 0' }}>
                   <div style={{ 
@@ -769,13 +857,23 @@ export default function EstimationWizard() {
               )}
               {step === 'contact' && (
                 <button 
-                  style={{ ...s.btnNext(!contactData.name || !contactData.email), background: '#c94f00' }} 
+                  style={{ 
+                    ...s.btnNext(!contactData.name || !contactData.email || isUploading), 
+                    background: '#c94f00',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px'
+                  }} 
                   onClick={handleFinish}
-                  disabled={!contactData.name || !contactData.email}
+                  disabled={!contactData.name || !contactData.email || isUploading}
                 >
-                  Envoyer ma demande
+                  {isUploading ? (
+                    <>
+                      <div className="spinner-small" />
+                      Envoi en cours...
+                    </>
+                  ) : 'Envoyer ma demande'}
                 </button>
               )}
+
               {step === 'success' && (
                 <button style={{ ...s.btnNext(false), background: '#1d1d1f' }} onClick={reset}>
                   Terminer

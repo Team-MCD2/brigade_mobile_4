@@ -175,6 +175,13 @@ export default function DashboardApp() {
     return sessionStorage.getItem('admin_session') === 'active';
   });
   const searchRef = useRef<HTMLInputElement>(null);
+  const [mobileDetailVisible, setMobileDetailVisible] = React.useState(false);
+
+  // Clear mobile detail when changing nav
+  useEffect(() => {
+    setMobileDetailVisible(false);
+  }, [activeNav]);
+
 
 
   const handleLogin = (pass: string) => {
@@ -254,7 +261,10 @@ export default function DashboardApp() {
     return () => window.removeEventListener('keydown', handler);
   }, []);
 
-  const handleSelect      = useCallback((r: DeviceRequest) => dispatch({ type: 'SELECT', payload: r }), []);
+  const handleSelect      = useCallback((r: DeviceRequest) => {
+    dispatch({ type: 'SELECT', payload: r });
+    setMobileDetailVisible(true);
+  }, []);
   const handleStatusChange = useCallback(async (id: string, s: RequestStatus) => {
     dispatch({ type: 'UPDATE_STATUS', id, status: s });
     // Sync with DB
@@ -330,6 +340,7 @@ export default function DashboardApp() {
           onNewRequest={() => dispatch({ type: 'TOGGLE_NEW_REQUEST' })}
           onToggleNotif={() => dispatch({ type: 'TOGGLE_NOTIF' })}
           showNotif={state.showNotif}
+          onBack={mobileDetailVisible ? () => setMobileDetailVisible(false) : undefined}
           title={
             activeNav === 'dashboard' ? 'Tableau de bord' :
             activeNav === 'requests' ? 'Demandes de reprise' :
@@ -356,7 +367,7 @@ export default function DashboardApp() {
               />
 
               {/* Detail column */}
-              <div className="db-detail-col">
+              <div className={`db-detail-col ${mobileDetailVisible ? 'mobile-visible' : ''}`}>
                 <div className="db-detail-topbar">
                   <span className="db-crumb">Demandes</span>
                   <span className="db-crumb-sep">›</span>

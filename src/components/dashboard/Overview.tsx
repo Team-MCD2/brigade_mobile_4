@@ -21,75 +21,77 @@ export default function Overview({ requests }: Props) {
   ];
 
   return (
-    <div style={{ padding: '2rem', flex: 1, overflowY: 'auto' }}>
-      <div style={{ marginBottom: '2rem' }}>
-        <h1 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '0.5rem' }}>Vue d'ensemble</h1>
-        <p style={{ color: 'var(--db-text3)', fontSize: '0.9rem' }}>Bienvenue sur votre centre de pilotage Brigade Mobile.</p>
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
-        {cards.map((card, i) => (
-          <motion.div
-            key={card.label}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1 }}
-            style={{
-              background: 'var(--db-surface)',
-              borderRadius: '20px',
-              padding: '1.5rem',
-              border: '1px solid var(--db-border)',
-              boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
-              <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: `${card.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: card.color }}>
-                {card.icon}
-              </div>
-              <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--db-green)', background: 'rgba(34,197,94,0.1)', padding: '0.25rem 0.5rem', borderRadius: '2rem' }}>
-                {card.sub.split(' ')[0]}
-              </span>
-            </div>
-            <div style={{ fontSize: '0.85rem', color: 'var(--db-text3)', marginBottom: '0.25rem' }}>{card.label}</div>
-            <div style={{ fontSize: '1.75rem', fontWeight: 800 }}>{card.value}</div>
-            <div style={{ fontSize: '0.72rem', color: 'var(--db-text3)', marginTop: '0.5rem' }}>{card.sub}</div>
-          </motion.div>
-        ))}
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem' }}>
-        {/* Activity Chart Placeholder */}
-        <div style={{ background: 'var(--db-surface)', borderRadius: '24px', padding: '1.5rem', border: '1px solid var(--db-border)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-            <h3 style={{ fontSize: '1rem', fontWeight: 700 }}>Activité des reprises</h3>
-            <select style={{ background: 'none', border: 'none', color: 'var(--db-text3)', fontSize: '0.8rem', cursor: 'pointer' }}>
-              <option>7 derniers jours</option>
-              <option>30 derniers jours</option>
-            </select>
-          </div>
-          <div style={{ height: '260px', display: 'flex', alignItems: 'flex-end', gap: '1rem', paddingBottom: '1rem' }}>
-            {[40, 65, 45, 90, 55, 75, 60].map((h, i) => (
-              <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
-                <motion.div
-                  initial={{ height: 0 }}
-                  animate={{ height: `${h}%` }}
-                  transition={{ duration: 0.8, delay: i * 0.05 }}
-                  style={{ width: '100%', maxWidth: '32px', background: i === 3 ? 'var(--db-accent)' : 'rgba(255,255,255,0.05)', borderRadius: '4px' }}
-                />
-                <span style={{ fontSize: '0.65rem', color: 'var(--db-text3)' }}>{['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'][i]}</span>
-              </div>
-            ))}
-          </div>
+    <div className="db-overview-scroll" style={{ flex: 1, overflowY: 'auto' }}>
+      <div style={{ padding: 'clamp(1rem, 5vw, 2rem)' }}>
+        <div style={{ marginBottom: '2rem' }}>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '0.5rem' }}>Vue d'ensemble</h1>
+          <p style={{ color: 'var(--db-text3)', fontSize: '0.9rem' }}>Bienvenue sur votre centre de pilotage Brigade Mobile.</p>
         </div>
 
-        {/* Quick Actions */}
-        <div style={{ background: 'var(--db-surface)', borderRadius: '24px', padding: '1.5rem', border: '1px solid var(--db-border)' }}>
-          <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '1.25rem' }}>Actions rapides</h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            <QuickAction icon={<IconPlus />} label="Nouvelle demande" desc="Saisie manuelle" />
-            <QuickAction icon={<IconMsg />} label="Messages" desc="3 non lus" highlight />
-            <QuickAction icon={<IconDownload />} label="Exporter" desc="Rapport PDF" />
-            <QuickAction icon={<IconSettings />} label="Paramètres" desc="Configuration" />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
+          {cards.map((card, i) => (
+            <motion.div
+              key={card.label}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              style={{
+                background: 'var(--db-surface)',
+                borderRadius: '20px',
+                padding: '1.5rem',
+                border: '1px solid var(--db-border)',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+                <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: `${card.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: card.color }}>
+                  {card.icon}
+                </div>
+                <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--db-green)', background: 'rgba(34,197,94,0.1)', padding: '0.25rem 0.5rem', borderRadius: '2rem' }}>
+                  {card.sub.split(' ')[0]}
+                </span>
+              </div>
+              <div style={{ fontSize: '0.85rem', color: 'var(--db-text3)', marginBottom: '0.25rem' }}>{card.label}</div>
+              <div style={{ fontSize: '1.75rem', fontWeight: 800 }}>{card.value}</div>
+              <div style={{ fontSize: '0.72rem', color: 'var(--db-text3)', marginTop: '0.5rem' }}>{card.sub}</div>
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="db-overview-bottom-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
+          {/* Activity Chart Placeholder */}
+          <div style={{ background: 'var(--db-surface)', borderRadius: '24px', padding: '1.5rem', border: '1px solid var(--db-border)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700 }}>Activité des reprises</h3>
+              <select style={{ background: 'none', border: 'none', color: 'var(--db-text3)', fontSize: '0.8rem', cursor: 'pointer' }}>
+                <option>7 derniers jours</option>
+                <option>30 derniers jours</option>
+              </select>
+            </div>
+            <div style={{ height: '260px', display: 'flex', alignItems: 'flex-end', gap: 'clamp(0.25rem, 2vw, 1rem)', paddingBottom: '1rem' }}>
+              {[40, 65, 45, 90, 55, 75, 60].map((h, i) => (
+                <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+                  <motion.div
+                    initial={{ height: 0 }}
+                    animate={{ height: `${h}%` }}
+                    transition={{ duration: 0.8, delay: i * 0.05 }}
+                    style={{ width: '100%', maxWidth: '32px', background: i === 3 ? 'var(--db-accent)' : 'rgba(255,255,255,0.05)', borderRadius: '4px' }}
+                  />
+                  <span style={{ fontSize: '0.65rem', color: 'var(--db-text3)' }}>{['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'][i]}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Quick Actions */}
+          <div style={{ background: 'var(--db-surface)', borderRadius: '24px', padding: '1.5rem', border: '1px solid var(--db-border)' }}>
+            <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '1.25rem' }}>Actions rapides</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <QuickAction icon={<IconPlus />} label="Nouvelle demande" desc="Saisie manuelle" />
+              <QuickAction icon={<IconMsg />} label="Messages" desc="3 non lus" highlight />
+              <QuickAction icon={<IconDownload />} label="Exporter" desc="Rapport PDF" />
+              <QuickAction icon={<IconSettings />} label="Paramètres" desc="Configuration" />
+            </div>
           </div>
         </div>
       </div>

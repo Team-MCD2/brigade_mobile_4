@@ -9,20 +9,34 @@ interface Props {
   onToggleNotif: () => void;
   showNotif: boolean;
   title?: string;
+  onBack?: () => void;
 }
 
 export default function Topbar({
-  searchRef, searchQuery, onSearch, onNewRequest, onToggleNotif, showNotif, title
+  searchRef, searchQuery, onSearch, onNewRequest, onToggleNotif, showNotif, title, onBack
 }: Props) {
   return (
     <div className="db-topbar">
       <div className="db-topbar-row1">
-        <div>
-          <div className="db-page-title">{title || 'Demandes de reprise'}</div>
-          <div className="db-page-sub">Gérez et analysez toutes les demandes de rachat.</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          {onBack && (
+            <button 
+              className="db-btn-icon back-btn-mobile" 
+              onClick={onBack}
+              style={{ width: '32px', height: '32px', border: 'none', background: 'rgba(255,255,255,0.05)' }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          )}
+          <div>
+            <div className="db-page-title">{title || 'Demandes de reprise'}</div>
+            <div className="db-page-sub desktop-only">Gérez et analysez toutes les demandes de rachat.</div>
+          </div>
         </div>
         <div className="db-topbar-actions">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginRight: '1rem', background: 'rgba(34,197,94,0.1)', padding: '0.4rem 0.8rem', borderRadius: '2rem', border: '1px solid rgba(34,197,94,0.2)' }}>
+          <div className="desktop-only" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginRight: '1rem', background: 'rgba(34,197,94,0.1)', padding: '0.4rem 0.8rem', borderRadius: '2rem', border: '1px solid rgba(34,197,94,0.2)' }}>
             <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 8px #22c55e' }} className="pulse-slow" />
             <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#22c55e', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Sync Live</span>
           </div>
@@ -46,7 +60,7 @@ export default function Topbar({
           </div>
 
           {/* Filter */}
-          <button className="db-btn-icon" title="Filtres" style={{ gap: '0.35rem', padding: '0 0.6rem', width: 'auto' }}>
+          <button className="db-btn-icon desktop-only" title="Filtres" style={{ gap: '0.35rem', padding: '0 0.6rem', width: 'auto' }}>
             <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5">
               <path d="M2 4h11M4 7.5h7M6 11h3"/>
             </svg>
@@ -68,15 +82,15 @@ export default function Topbar({
           </button>
 
           {/* New request */}
-          <button className="db-btn-primary" onClick={onNewRequest}>
+          <button className="db-btn-primary mobile-compact" onClick={onNewRequest}>
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M6.5 2v9M2 6.5h9" strokeLinecap="round"/>
             </svg>
-            Nouvelle demande
+            <span className="desktop-only">Nouvelle demande</span>
           </button>
 
           {/* Avatar */}
-          <div style={{
+          <div className="desktop-only" style={{
             width: 34, height: 34, borderRadius: '50%',
             background: 'linear-gradient(135deg,#f5a623,#e8941c)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
