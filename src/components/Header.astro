@@ -31,7 +31,7 @@ const currentPath = Astro.url.pathname;
 
             <div class="header-actions">
                 <a href="/devis" class="btn-primary">Demander un Devis</a>
-                <span class="material-symbols-outlined hamburger" style="display:none; margin-left: 1rem;">menu</span>
+                <span class="material-symbols-outlined hamburger" id="hamburger-btn" style="display:none; margin-left: 1rem;">menu</span>
             </div>
         </div>
     </div>
@@ -146,4 +146,29 @@ const currentPath = Astro.url.pathname;
             </ul>
         </div>
     </nav>
+
+<script>
+  const btn = document.getElementById('hamburger-btn');
+  const nav = document.querySelector('.header-nav') as HTMLElement | null;
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:999;display:none;';
+  document.body.appendChild(overlay);
+
+  function openNav() {
+    nav?.classList.add('active');
+    overlay.style.display = 'block';
+    btn!.textContent = 'close';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeNav() {
+    nav?.classList.remove('active');
+    overlay.style.display = 'none';
+    btn!.textContent = 'menu';
+    document.body.style.overflow = '';
+  }
+
+  btn?.addEventListener('click', () => nav?.classList.contains('active') ? closeNav() : openNav());
+  overlay.addEventListener('click', closeNav);
+  document.querySelectorAll('.header-nav .nav-link').forEach(l => l.addEventListener('click', closeNav));
+</script>
 </header>

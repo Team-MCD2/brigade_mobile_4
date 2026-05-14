@@ -284,11 +284,42 @@ export default function EstimationWizard() {
 
   return (
     <>
+      <style>{`
+        .wz-grid-cards {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 1.25rem;
+        }
+        .wz-col2 {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+        }
+        @media (max-width: 640px) {
+          .wz-grid-cards { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+          .wz-card-img  { height: 140px !important; }
+          .wz-card-info { padding: 0.6rem 0.7rem 0.75rem !important; }
+          .wz-card-name { font-size: 0.8rem !important; }
+          .wz-card-sub  { font-size: 0.68rem !important; margin-top: 2px !important; }
+          .wz-card-badge { font-size: 0.6rem !important; padding: 0.15rem 0.45rem !important; margin-top: 0.4rem !important; }
+          .wz-overlay { align-items: flex-end !important; padding: 0 !important; }
+          .wz-modal {
+            max-width: 100% !important;
+            max-height: 92dvh !important;
+            border-radius: 20px 20px 0 0 !important;
+            width: 100% !important;
+          }
+          .wz-col2 { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 380px) {
+          .wz-grid-cards { grid-template-columns: 1fr; }
+          .wz-card-img  { height: 180px !important; }
+        }
+      `}</style>
       {/* ── Brand cards ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1.25rem' }}>
+      <div className="wz-grid-cards">
         {brands.map(b => (
           <div key={b.id} style={s.brandCard(brandId === b.id)} onClick={() => openForBrand(b.id)}>
-            <div style={{
+            <div className="wz-card-img" style={{
               height: '200px',
               backgroundImage: "url('/phones-cards.png')",
               backgroundSize: '400% auto',
@@ -296,15 +327,15 @@ export default function EstimationWizard() {
               backgroundPosition: b.id === 'apple' ? '0% 40%' : b.id === 'samsung' ? '33.33% 40%' : b.id === 'pixel' ? '66.66% 40%' : '100% 40%',
               backgroundColor: b.id === 'apple' ? '#e8e8ed' : b.id === 'samsung' ? '#2a2a2a' : b.id === 'pixel' ? '#f0ede6' : '#e8e6f0',
             }} />
-            <div style={{ background: '#fff', padding: '0.9rem 1rem 1rem', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
-              <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#1d1d1f' }}>{b.name}</div>
-              <div style={{ fontSize: '0.78rem', color: '#6e6e73', marginTop: '3px' }}>
+            <div className="wz-card-info" style={{ background: '#fff', padding: '0.9rem 1rem 1rem', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
+              <div className="wz-card-name" style={{ fontSize: '0.95rem', fontWeight: 700, color: '#1d1d1f' }}>{b.name}</div>
+              <div className="wz-card-sub" style={{ fontSize: '0.78rem', color: '#6e6e73', marginTop: '3px' }}>
                 {b.id === 'apple'   && 'iPhone 11 → 15 Pro Max'}
                 {b.id === 'samsung' && 'Galaxy S21 → S24 Ultra'}
                 {b.id === 'pixel'   && 'Pixel 6 → 9 Pro XL'}
                 {b.id === 'autre'   && 'OnePlus, Xiaomi, OPPO…'}
               </div>
-              <div style={{
+              <div className="wz-card-badge" style={{
                 display: 'inline-block', marginTop: '0.6rem',
                 fontSize: '0.7rem', fontWeight: 600, padding: '0.2rem 0.6rem',
                 borderRadius: '2rem', background: '#fff4ec', color: '#c94f00',
@@ -316,8 +347,8 @@ export default function EstimationWizard() {
 
       {/* ── Wizard overlay ── */}
       {open && (
-        <div style={s.overlay} onClick={e => { if (e.target === e.currentTarget) reset(); }}>
-          <div style={s.modal}>
+        <div style={s.overlay} className="wz-overlay" onClick={e => { if (e.target === e.currentTarget) reset(); }}>
+          <div style={s.modal} className="wz-modal">
 
             {/* Header */}
             <div style={s.modalHeader}>
@@ -352,7 +383,7 @@ export default function EstimationWizard() {
 
               {/* STEP: models */}
               {step === 'models' && brand && (
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+                <div style={{ gap: '0.5rem' }} className="wz-col2">
                   {brand.models.map(m => (
                     <div key={m.id} style={s.modelBtn(modelId === m.id)} onClick={() => setModelId(m.id)}>
                       {m.name}
@@ -377,7 +408,7 @@ export default function EstimationWizard() {
                 <div style={{ display: 'flex', flexDirection: 'column' as const, gap: '1rem' }}>
 
                   {/* Brand + Model */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                  <div style={{ gap: '0.75rem' }} className="wz-col2">
                     <div>
                       <label style={{ fontSize: '0.78rem', fontWeight: 600, color: '#6e6e73', display: 'block', marginBottom: '0.35rem' }}>Marque *</label>
                       <input
@@ -401,7 +432,7 @@ export default function EstimationWizard() {
                   </div>
 
                   {/* Year + Price range */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                  <div style={{ gap: '0.75rem' }} className="wz-col2">
                     <div>
                       <label style={{ fontSize: '0.78rem', fontWeight: 600, color: '#6e6e73', display: 'block', marginBottom: '0.35rem' }}>Année d'achat *</label>
                       <select value={customYear} onChange={e => setCustomYear(e.target.value)}
@@ -426,7 +457,7 @@ export default function EstimationWizard() {
                   </div>
 
                   {/* Storage + IMEI */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                  <div style={{ gap: '0.75rem' }} className="wz-col2">
                     <div>
                       <label style={{ fontSize: '0.78rem', fontWeight: 600, color: '#6e6e73', display: 'block', marginBottom: '0.35rem' }}>Stockage</label>
                       <select value={customStorage} onChange={e => setCustomStorage(e.target.value)}

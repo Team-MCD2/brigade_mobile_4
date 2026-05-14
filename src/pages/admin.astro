@@ -1,0 +1,630 @@
+---
+// Static admin dashboard — no backend, no dynamic data
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin · Brigade Mobile</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #080808;
+      --surface:    #0f0f0f;
+      --border:     rgba(255,255,255,0.07);
+      --border-h:   rgba(255,255,255,0.12);
+      --text:       #e8e8e8;
+      --muted:      #484848;
+      --faint:      #272727;
+      --accent:     #c94f00;
+      --green:      #22c55e;
+      --amber:      #f59e0b;
+      --red:        #ef4444;
+      --blue:       #3b82f6;
+      --header-h:   52px;
+      --sidebar-w:  300px;
+      --font:       -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      --mono:       "SF Mono", "Fira Code", "Cascadia Code", monospace;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 13px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HEADER ──────────────────────────────────────────────── */
+    .header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--header-h);
+      background: rgba(8,8,8,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.25rem;
+      z-index: 100;
+      gap: 1rem;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+    .header-brand .wordmark {
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #fff;
+    }
+    .header-brand .admin-badge {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(201,79,0,0.12);
+      border: 1px solid rgba(201,79,0,0.25);
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .header-nav a {
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--muted);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .header-nav a:hover { color: var(--text); background: var(--faint); }
+    .header-nav a.active { color: var(--text); }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-shrink: 0;
+    }
+    .live-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .header-user {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .header-avatar {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: var(--faint);
+      border: 1px solid var(--border-h);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    /* ── LAYOUT ──────────────────────────────────────────────── */
+    .layout {
+      display: flex;
+      height: 100vh;
+      padding-top: var(--header-h);
+    }
+
+    /* ── SIDEBAR ─────────────────────────────────────────────── */
+    .sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      height: 100%;
+      overflow-y: auto;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      scrollbar-width: none;
+    }
+    .sidebar::-webkit-scrollbar { display: none; }
+
+    .sidebar-top {
+      padding: 1.25rem 1.25rem 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .sidebar-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .count-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      font-family: var(--mono);
+      color: var(--muted);
+      background: var(--faint);
+      border: 1px solid var(--border);
+      padding: 1px 7px;
+      border-radius: 4px;
+    }
+
+    .filters {
+      padding: 0 1rem 0.75rem;
+      display: flex;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+    .filter-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: var(--font);
+    }
+    .filter-btn:hover { border-color: var(--border-h); color: var(--text); }
+    .filter-btn.active {
+      background: var(--faint);
+      border-color: var(--border-h);
+      color: var(--text);
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0 1rem 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .requests-list {
+      flex: 1;
+      padding: 0 0.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .request-item {
+      padding: 0.85rem 0.75rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.12s;
+      border: 1px solid transparent;
+    }
+    .request-item:hover {
+      background: var(--faint);
+      border-color: var(--border);
+    }
+    .request-item.selected {
+      background: rgba(255,255,255,0.04);
+      border-color: var(--border-h);
+    }
+
+    .req-row1 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.3rem;
+    }
+    .req-model {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .status-pill {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 2px 7px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+    .status-pill.pending  { background: rgba(245,158,11,0.12); color: var(--amber); }
+    .status-pill.done     { background: rgba(34,197,94,0.10);  color: var(--green); }
+    .status-pill.refused  { background: rgba(239,68,68,0.10);  color: var(--red);   }
+    .status-pill.review   { background: rgba(59,130,246,0.10); color: var(--blue);  }
+
+    .req-row2 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .req-meta {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    .req-price {
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: var(--mono);
+      color: var(--accent);
+    }
+
+    /* ── DETAIL ZONE ─────────────────────────────────────────── */
+    .detail {
+      flex: 1;
+      height: 100%;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .detail-toolbar {
+      height: 44px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 1.75rem;
+      gap: 1rem;
+      flex-shrink: 0;
+    }
+    .toolbar-crumb {
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .toolbar-crumb span { color: var(--text); font-weight: 500; }
+
+    .detail-empty {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 4rem;
+    }
+    .empty-icon {
+      width: 44px; height: 44px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+    .empty-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+    .empty-sub {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: center;
+      max-width: 260px;
+      line-height: 1.6;
+    }
+
+    /* ── STATS ROW (sidebar bottom) ──────────────────────────── */
+    .stats-row {
+      padding: 1rem 1.25rem;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+      flex-shrink: 0;
+    }
+    .stat-cell {
+      background: var(--faint);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.6rem 0.75rem;
+    }
+    .stat-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+    .stat-value {
+      font-size: 1.1rem;
+      font-weight: 800;
+      font-family: var(--mono);
+      letter-spacing: -0.03em;
+      color: var(--text);
+    }
+    .stat-value.accent { color: var(--accent); }
+    .stat-value.green  { color: var(--green);  }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      :root { --sidebar-w: 100%; }
+
+      .header-nav { display: none; }
+      .header-user { display: none; }
+
+      .layout {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        max-height: none;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        overflow-y: visible;
+      }
+
+      .requests-list { max-height: 420px; overflow-y: auto; }
+
+      .stats-row { grid-template-columns: repeat(4, 1fr); }
+
+      .detail { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .header-brand .wordmark { font-size: 0.8rem; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .filters { gap: 0.2rem; }
+      .filter-btn { font-size: 0.68rem; padding: 0.25rem 0.55rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header class="header">
+    <div class="header-brand">
+      <span class="wordmark">Brigade Mobile</span>
+      <span class="admin-badge">Admin</span>
+    </div>
+
+    <nav class="header-nav">
+      <a href="#" class="active">Reprises</a>
+      <a href="#">Catalogue</a>
+      <a href="#">Revenus</a>
+      <a href="#">Paramètres</a>
+    </nav>
+
+    <div class="header-right">
+      <div class="live-dot"></div>
+      <span class="header-user">En ligne</span>
+      <div class="header-avatar">A</div>
+    </div>
+  </header>
+
+  <!-- ── LAYOUT ── -->
+  <div class="layout">
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar">
+
+      <div class="sidebar-top">
+        <span class="sidebar-title">Demandes</span>
+        <span class="count-badge">12</span>
+      </div>
+
+      <div class="filters">
+        <button class="filter-btn active">Toutes</button>
+        <button class="filter-btn">En attente</button>
+        <button class="filter-btn">Validées</button>
+        <button class="filter-btn">Refusées</button>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="requests-list">
+
+        <div class="request-item">
+          <div class="req-row1">
+            <span class="req-model">iPhone 15 Pro Max</span>
+            <span class="status-pill pending">En attente</span>
+          </div>
+          <div class="req-row2">
+            <span class="req-meta">256 Go · il y a 14 min</span>
+            <span class="req-price">420 €</span>
+          </div>
+        </div>
+
+        <div class="request-item">
+          <div class="req-row1">
+            <span class="req-model">Samsung Galaxy S24 Ultra</span>
+            <span class="status-pill review">En cours</span>
+          </div>
+          <div class="req-row2">
+            <span class="req-meta">512 Go · il y a 1h</span>
+            <span class="req-price">370 €</span>
+          </div>
+        </div>
+
+        <div class="request-item">
+          <div class="req-row1">
+            <span class="req-model">Google Pixel 9 Pro</span>
+            <span class="status-pill done">Validée</span>
+          </div>
+          <div class="req-row2">
+            <span class="req-meta">256 Go · il y a 2h</span>
+            <span class="req-price">280 €</span>
+          </div>
+        </div>
+
+        <div class="request-item">
+          <div class="req-row1">
+            <span class="req-model">iPhone 14 Pro</span>
+            <span class="status-pill pending">En attente</span>
+          </div>
+          <div class="req-row2">
+            <span class="req-meta">128 Go · il y a 3h</span>
+            <span class="req-price">250 €</span>
+          </div>
+        </div>
+
+        <div class="request-item">
+          <div class="req-row1">
+            <span class="req-model">OnePlus 12</span>
+            <span class="status-pill refused">Refusée</span>
+          </div>
+          <div class="req-row2">
+            <span class="req-meta">256 Go · il y a 5h</span>
+            <span class="req-price">30 €</span>
+          </div>
+        </div>
+
+        <div class="request-item">
+          <div class="req-row1">
+            <span class="req-model">Samsung Galaxy S23</span>
+            <span class="status-pill done">Validée</span>
+          </div>
+          <div class="req-row2">
+            <span class="req-meta">128 Go · hier</span>
+            <span class="req-price">190 €</span>
+          </div>
+        </div>
+
+        <div class="request-item">
+          <div class="req-row1">
+            <span class="req-model">iPhone 13 mini</span>
+            <span class="status-pill done">Validée</span>
+          </div>
+          <div class="req-row2">
+            <span class="req-meta">128 Go · hier</span>
+            <span class="req-price">80 €</span>
+          </div>
+        </div>
+
+        <div class="request-item">
+          <div class="req-row1">
+            <span class="req-model">Xiaomi 14 Ultra</span>
+            <span class="status-pill pending">En attente</span>
+          </div>
+          <div class="req-row2">
+            <span class="req-meta">512 Go · hier</span>
+            <span class="req-price">240 €</span>
+          </div>
+        </div>
+
+        <div class="request-item">
+          <div class="req-row1">
+            <span class="req-model">Google Pixel 8 Pro</span>
+            <span class="status-pill refused">Refusée</span>
+          </div>
+          <div class="req-row2">
+            <span class="req-meta">256 Go · il y a 2j</span>
+            <span class="req-price">30 €</span>
+          </div>
+        </div>
+
+        <div class="request-item">
+          <div class="req-row1">
+            <span class="req-model">iPhone 15 Plus</span>
+            <span class="status-pill review">En cours</span>
+          </div>
+          <div class="req-row2">
+            <span class="req-meta">256 Go · il y a 2j</span>
+            <span class="req-price">310 €</span>
+          </div>
+        </div>
+
+        <div class="request-item">
+          <div class="req-row1">
+            <span class="req-model">Motorola Edge 40 Pro</span>
+            <span class="status-pill done">Validée</span>
+          </div>
+          <div class="req-row2">
+            <span class="req-meta">256 Go · il y a 3j</span>
+            <span class="req-price">100 €</span>
+          </div>
+        </div>
+
+        <div class="request-item">
+          <div class="req-row1">
+            <span class="req-model">Samsung Galaxy S22 Ultra</span>
+            <span class="status-pill done">Validée</span>
+          </div>
+          <div class="req-row2">
+            <span class="req-meta">128 Go · il y a 4j</span>
+            <span class="req-price">175 €</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat-cell">
+          <span class="stat-label">Ce mois</span>
+          <span class="stat-value green">47</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-label">Marge totale</span>
+          <span class="stat-value accent">9 400 €</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-label">En attente</span>
+          <span class="stat-value">4</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-label">Taux valid.</span>
+          <span class="stat-value">79%</span>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ── DETAIL ZONE ── -->
+    <main class="detail">
+      <div class="detail-toolbar">
+        <div class="toolbar-crumb">
+          Reprises <span style="color: var(--muted);">›</span> <span>Sélection</span>
+        </div>
+      </div>
+
+      <div class="detail-empty">
+        <div class="empty-icon">↗</div>
+        <p class="empty-title">Aucune demande sélectionnée</p>
+        <p class="empty-sub">Cliquez sur une demande dans la colonne de gauche pour afficher ses détails.</p>
+      </div>
+    </main>
+
+  </div>
+
+</body>
+</html>
