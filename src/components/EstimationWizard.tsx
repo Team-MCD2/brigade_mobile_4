@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { brands, calculateOffer, BRIGADE_MARGIN, MIN_OFFER } from '../data/phonePricing';
 
-type Step = 'brands' | 'models' | 'storage' | 'custom' | 'screen' | 'body' | 'result';
+type Step = 'brands' | 'models' | 'storage' | 'custom' | 'screen' | 'body' | 'result' | 'contact' | 'success';
+
 
 /* ── Custom phone pricing ─────────────────────────────────── */
 const PRICE_RANGE_MARKET: Record<string, number> = {
@@ -51,8 +52,9 @@ const BATTERY_OPTIONS: ConditionOption[] = [
   { id: 'bad',       label: '< 60%',    desc: 'Batterie faible ou gonflement',         icon: '🔋' },
 ];
 
-const STEP_LABELS = ['Marque', 'Modèle', 'Stockage', 'Écran', 'Appareil', 'Résultat'];
-const STEP_KEYS: Step[] = ['brands', 'models', 'storage', 'screen', 'body', 'result'];
+const STEP_LABELS = ['Marque', 'Modèle', 'Stockage', 'Écran', 'Appareil', 'Résultat', 'Contact'];
+const STEP_KEYS: Step[] = ['brands', 'models', 'storage', 'screen', 'body', 'result', 'contact'];
+
 
 const s = {
   overlay: {
@@ -211,8 +213,9 @@ export default function EstimationWizard() {
   const storageOpt = model?.storages.find(st => st.capacity === storage);
 
   const currentKeys: Step[] = isCustom
-    ? ['brands', 'custom', 'screen', 'body', 'result']
-    : ['brands', 'models', 'storage', 'screen', 'body', 'result'];
+    ? ['brands', 'custom', 'screen', 'body', 'result', 'contact']
+    : ['brands', 'models', 'storage', 'screen', 'body', 'result', 'contact'];
+
   const stepIdx = currentKeys.indexOf(step);
 
   const offer = (step === 'result' && screen && body)
@@ -231,6 +234,8 @@ export default function EstimationWizard() {
     screen:  !!screen,
     body:    !!body,
     result:  true,
+    contact: true,
+    success: true,
   };
 
   const NEXT_STEP: Record<Step, Step> = {
@@ -240,8 +245,11 @@ export default function EstimationWizard() {
     custom:  'screen',
     screen:  'body',
     body:    'result',
-    result:  'result',
+    result:  'contact',
+    contact: 'success',
+    success: 'success',
   };
+
   const PREV_STEP: Record<Step, Step | null> = {
     brands:  null,
     models:  'brands',
@@ -250,7 +258,11 @@ export default function EstimationWizard() {
     screen:  isCustom ? 'custom' : 'storage',
     body:    'screen',
     result:  'body',
+    contact: 'result',
+    success: null,
   };
+
+
 
   const goNext = () => { if (canNext[step]) setStep(NEXT_STEP[step]); };
   const goBack = () => { const prev = PREV_STEP[step]; if (prev) setStep(prev); else setOpen(false); };
@@ -280,7 +292,87 @@ export default function EstimationWizard() {
     screen:  { title: 'État de l\'écran',         sub: 'Observez votre écran attentivement' },
     body:    { title: 'État général',             sub: 'Coque, dos et structure' },
     result:  { title: 'Votre estimation',         sub: isCustom ? customSummary : `${brand?.name} · ${model?.name} · ${storage}` },
+    contact: { title: 'Finaliser ma demande',     sub: 'Laissez vos coordonnées pour bloquer le prix' },
+    success: { title: 'Demande envoyée !',        sub: 'Nous vous recontactons très vite' },
   };
+
+  const [contactData, setContactData] = useState({
+    name: '', email: '', phone: '', city: 'Toulouse'
+  });
+
+  const handleFinish = async () => {
+    // Create request object for dashboard
+    const id = Math.random().toString(36).substr(2, 9);
+    const now = new Date();
+    
+    const newReq = {
+      id,
+      number: `#${Math.floor(1000 + Math.random() * 9000)}`,
+      deviceName: isCustom ? customModel : (model?.name ?? ''),
+      storage: isCustom ? customStorage : (storage ?? ''),
+      color: 'Non spécifié',
+      brand: isCustom ? 'other' : (brandId as any),
+      imageUrl: '', 
+      thumbnails: [],
+      estimatedPrice: offer || 0,
+      basePrice: (offer || 0) * 1.2,
+      status: 'pending',
+      date: now.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }),
+      time: now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
+      client: {
+        id: 'c' + id,
+        name: contactData.name,
+        initials: contactData.name.split(' ').map(n => n[0]).join('').toUpperCase(),
+        email: contactData.email,
+        phone: contactData.phone,
+        city: contactData.city,
+        online: true
+      },
+      imei: isCustom ? customImei : '',
+      unlocked: isCustom ? customUnlocked : true,
+      warranty: false,
+      accessories: 'Non spécifié',
+      condition: {
+        screen: { label: screen === 'perfect' ? 'Parfait' : screen === 'good' ? 'Bon état' : screen === 'fair' ? 'Usé' : 'Cassé', level: screen === 'perfect' || screen === 'good' ? 'good' : 'bad' },
+        battery: { label: battery === 'good' ? 'Bonne' : 'Usée', level: battery === 'good' ? 'good' : 'bad' },
+        chassis: { label: body === 'perfect' ? 'Parfait' : body === 'good' ? 'Bon état' : 'Abîmé', level: body === 'perfect' || body === 'good' ? 'good' : 'bad' },
+        camera: { label: 'Non vérifié', level: 'good' },
+        functional: { label: functional ? 'Oui' : 'Non', level: functional ? 'good' : 'bad' },
+      }
+    };
+
+    // 1. Appel API RÉEL (Resend + DB)
+    try {
+      await fetch('/api/reprise', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          device: {
+            name: newReq.deviceName,
+            brand: newReq.brand,
+            storage: newReq.storage,
+            color: newReq.color,
+          },
+          client: contactData,
+          estimatedPrice: newReq.estimatedPrice
+        })
+      });
+    } catch (e) {
+      console.error('Erreur API:', e);
+    }
+
+    // 2. Persistence Locale pour le Dashboard
+    const STORAGE_KEY = 'brigade_dashboard_state';
+    const saved = localStorage.getItem(STORAGE_KEY);
+    let state = saved ? JSON.parse(saved) : { requests: [], notes: {} };
+    
+    state.requests = [newReq, ...(state.requests || [])];
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+
+    setStep('success');
+  };
+
+
 
   return (
     <>
@@ -583,6 +675,79 @@ export default function EstimationWizard() {
                 </>
               )}
 
+              {/* STEP: contact */}
+              {step === 'contact' && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  <div className="db-field">
+                    <label style={{ fontSize: '0.8rem', fontWeight: 600, color: '#6e6e73', display: 'block', marginBottom: '0.4rem' }}>Nom complet *</label>
+                    <input 
+                      required
+                      type="text" value={contactData.name} onChange={e => setContactData({...contactData, name: e.target.value})}
+                      placeholder="Jean Dupont"
+                      style={{ width: '100%', padding: '0.8rem', borderRadius: '12px', border: '1.5px solid #e5e5e5', fontSize: '0.95rem', outline: 'none', boxSizing: 'border-box' }}
+                    />
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                    <div className="db-field">
+                      <label style={{ fontSize: '0.8rem', fontWeight: 600, color: '#6e6e73', display: 'block', marginBottom: '0.4rem' }}>Email *</label>
+                      <input 
+                        required
+                        type="email" value={contactData.email} onChange={e => setContactData({...contactData, email: e.target.value})}
+                        placeholder="jean@gmail.com"
+                        style={{ width: '100%', padding: '0.8rem', borderRadius: '12px', border: '1.5px solid #e5e5e5', fontSize: '0.95rem', outline: 'none', boxSizing: 'border-box' }}
+                      />
+                    </div>
+                    <div className="db-field">
+                      <label style={{ fontSize: '0.8rem', fontWeight: 600, color: '#6e6e73', display: 'block', marginBottom: '0.4rem' }}>Téléphone *</label>
+                      <input 
+                        required
+                        type="tel" value={contactData.phone} onChange={e => setContactData({...contactData, phone: e.target.value})}
+                        placeholder="06 12 34 56 78"
+                        style={{ width: '100%', padding: '0.8rem', borderRadius: '12px', border: '1.5px solid #e5e5e5', fontSize: '0.95rem', outline: 'none', boxSizing: 'border-box' }}
+                      />
+                    </div>
+                  </div>
+                  <div className="db-field">
+                    <label style={{ fontSize: '0.8rem', fontWeight: 600, color: '#6e6e73', display: 'block', marginBottom: '0.4rem' }}>Ville</label>
+                    <select 
+                      value={contactData.city} onChange={e => setContactData({...contactData, city: e.target.value})}
+                      style={{ width: '100%', padding: '0.8rem', borderRadius: '12px', border: '1.5px solid #e5e5e5', fontSize: '0.95rem', background: '#fff' }}
+                    >
+                      <option value="Toulouse">Toulouse (Boutique)</option>
+                      <option value="Autre">Autre (Envoi postal)</option>
+                    </select>
+                  </div>
+
+                  <div style={{ background: '#f5f5f7', borderRadius: '12px', padding: '1rem', marginTop: '0.5rem' }}>
+                    <div style={{ fontSize: '0.8rem', color: '#1d1d1f', fontWeight: 600, marginBottom: '4px' }}>🛡️ Protection de vos données</div>
+                    <div style={{ fontSize: '0.72rem', color: '#6e6e73', lineHeight: 1.5 }}>
+                      Vos informations ne seront utilisées que pour traiter votre demande de reprise. Pas de spam, promis.
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* STEP: success */}
+              {step === 'success' && (
+                <div style={{ textAlign: 'center', padding: '2rem 0' }}>
+                  <div style={{ 
+                    width: '72px', height: '72px', borderRadius: '50%', background: '#fff4ec', 
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem',
+                    color: '#c94f00', fontSize: '2rem'
+                  }}>✓</div>
+                  <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#1d1d1f', marginBottom: '0.75rem' }}>Merci {contactData.name.split(' ')[0]} !</h3>
+                  <p style={{ color: '#6e6e73', lineHeight: 1.6, maxWidth: '320px', margin: '0 auto 1.5rem' }}>
+                    Votre demande a été transmise à notre équipe. Vous recevrez un mail de confirmation d'ici quelques minutes.
+                  </p>
+                  <div style={{ background: '#fafafa', border: '1px solid #eee', borderRadius: '12px', padding: '1rem', textAlign: 'left' }}>
+                    <div style={{ fontSize: '0.75rem', color: '#9a9a9a', marginBottom: '8px' }}>PROCHAINE ÉTAPE</div>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#1d1d1f' }}>
+                      Passez en boutique avec votre pièce d'identité pour finaliser le rachat et recevoir votre paiement.
+                    </div>
+                  </div>
+                </div>
+              )}
+
             </div>
 
             {/* Footer */}
@@ -590,20 +755,37 @@ export default function EstimationWizard() {
               <button style={s.btnBack} onClick={goBack}>
                 {step === 'brands' ? 'Fermer' : '← Retour'}
               </button>
-              {step !== 'result' ? (
+              
+              {(!['result', 'contact', 'success'].includes(step)) && (
                 <button style={s.btnNext(!canNext[step])} onClick={goNext} disabled={!canNext[step]}>
                   Continuer →
                 </button>
-              ) : (
-                <button style={{ ...s.btnNext(false), background: '#c94f00' }} onClick={reset}>
-                  Nouvelle estimation
+              )}
+
+              {step === 'result' && (
+                <button style={{ ...s.btnNext(false), background: '#c94f00' }} onClick={goNext}>
+                  Bloquer ce prix →
+                </button>
+              )}
+              {step === 'contact' && (
+                <button 
+                  style={{ ...s.btnNext(!contactData.name || !contactData.email), background: '#c94f00' }} 
+                  onClick={handleFinish}
+                  disabled={!contactData.name || !contactData.email}
+                >
+                  Envoyer ma demande
+                </button>
+              )}
+              {step === 'success' && (
+                <button style={{ ...s.btnNext(false), background: '#1d1d1f' }} onClick={reset}>
+                  Terminer
                 </button>
               )}
             </div>
-
           </div>
         </div>
       )}
     </>
   );
 }
+
