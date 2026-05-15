@@ -199,17 +199,24 @@ img { max-width: 100%; height: auto; display: block; }
   .header-main .container { justify-content: space-between; }
   .search-bar { display: none; } /* Hide search bar from header on mobile, move to menu if needed */
   
-  .hamburger { display: block !important; margin-left: 1rem; cursor: pointer; color: var(--color-dark); font-size: 2.2rem !important; }
+  .hamburger { 
+    display: block !important; 
+    margin-left: 1rem; 
+    cursor: pointer; 
+    color: var(--color-dark); 
+    font-size: 2.2rem !important; 
+    position: relative;
+    z-index: 2100;
+  }
 
   .header-nav {
     position: fixed; top: 0; right: -100%; width: 85%; height: 100vh;
     background: var(--color-white); z-index: 2000; padding: 5rem 2rem 2rem;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: -10px 0 30px rgba(0,0,0,0.1);
     display: flex; flex-direction: column; overflow-y: auto;
   }
   
-  .header-nav.active { transform: translateX(-100%); right: -100%; }
   .header-nav.active { right: 0; }
 
   .nav-list { flex-direction: column; align-items: flex-start; gap: 0; width: 100%; }

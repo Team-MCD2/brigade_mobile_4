@@ -6,9 +6,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const nav = document.querySelector('.header-nav');
     
     if (hamburger && nav) {
-        hamburger.addEventListener('click', () => {
-            nav.classList.toggle('active');
-            hamburger.innerText = nav.classList.contains('active') ? 'close' : 'menu';
+        // Only attach once
+        if (hamburger.getAttribute('data-init')) return;
+        hamburger.setAttribute('data-init', 'true');
+
+        // Create overlay if it doesn't exist
+        let overlay = document.querySelector('.nav-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.className = 'nav-overlay';
+            overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1500;display:none;backdrop-filter:blur(3px);';
+            document.body.appendChild(overlay);
+        }
+
+        const openNav = () => {
+            nav.classList.add('active');
+            overlay.style.display = 'block';
+            hamburger.innerText = 'close';
+            document.body.style.overflow = 'hidden';
+        };
+
+        const closeNav = () => {
+            nav.classList.remove('active');
+            overlay.style.display = 'none';
+            hamburger.innerText = 'menu';
+            document.body.style.overflow = '';
+        };
+
+        hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            nav.classList.contains('active') ? closeNav() : openNav();
+        });
+
+        overlay.addEventListener('click', closeNav);
+        
+        // Close on link click
+        nav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', closeNav);
         });
     }
 
